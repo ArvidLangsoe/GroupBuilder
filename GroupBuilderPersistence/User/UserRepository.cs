@@ -7,7 +7,7 @@ using System.Text;
 
 namespace GroupBuilderPersistence
 {
-    class UserRepository : Repository<User>,IUserRepository
+    public class UserRepository : Repository<User>,IUserRepository
     {
         public UserRepository(DatabaseContext database) : base(database) { }
     }

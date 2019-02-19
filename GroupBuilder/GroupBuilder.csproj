@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GroupBuilderApplication\GroupBuilderApplication.csproj" />
+    <ProjectReference Include="..\GroupBuilderPersistence\GroupBuilderPersistence.csproj" />
   </ItemGroup>
 
 </Project>
