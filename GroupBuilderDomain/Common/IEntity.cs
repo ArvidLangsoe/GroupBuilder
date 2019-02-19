@@ -4,9 +4,9 @@ using System.Text;
 
 namespace GroupBuilderDomain
 {
-    public class User : IEntity
+    public interface IEntity
     {
-        public int Id { get; set; }
-        public string StudentId { get; set; }
+        int Id { get; set; }
     }
+
 }
