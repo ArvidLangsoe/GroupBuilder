@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupBuilder", "GroupBuilder\GroupBuilder.csproj", "{7817CBF9-F631-4D0F-B22A-36C771A7AC0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupBuilderDomain", "GroupBuilderDomain\GroupBuilderDomain.csproj", "{FC43AA97-0C23-4EC7-870D-8E936FEFA50E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7817CBF9-F631-4D0F-B22A-36C771A7AC0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7817CBF9-F631-4D0F-B22A-36C771A7AC0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7817CBF9-F631-4D0F-B22A-36C771A7AC0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7817CBF9-F631-4D0F-B22A-36C771A7AC0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC43AA97-0C23-4EC7-870D-8E936FEFA50E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC43AA97-0C23-4EC7-870D-8E936FEFA50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC43AA97-0C23-4EC7-870D-8E936FEFA50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC43AA97-0C23-4EC7-870D-8E936FEFA50E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F33BC91B-5431-40AA-B979-D8F1DB290262}
+	EndGlobalSection
+EndGlobal
