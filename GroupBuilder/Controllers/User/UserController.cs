@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using GroupBuilderApplication.Queries.GetUserList;
 using GroupBuilderApplication.Commands.CreateUser;
 using GroupBuilderApplication.Queries.GetSingleUser;
+using GroupBuilderApplication.Commands.RemoveUser;
 
 namespace GroupBuilder.Controllers.User
 {
@@ -17,15 +18,18 @@ namespace GroupBuilder.Controllers.User
         private IGetUserListQuery _listQuery;
         private ICreateUserCommand _createUserCommand;
         private IGetSingleUserQuery _getSingleUserQuery;
+        private IRemoveUserCommand _removeUserCommand;
 
         public UserController(
             IGetUserListQuery listQuery, 
             ICreateUserCommand createUserCommand,
-            IGetSingleUserQuery singleUserQuery)
+            IGetSingleUserQuery singleUserQuery,
+            IRemoveUserCommand removeUserCommand)
         {
             _listQuery = listQuery;
             _createUserCommand = createUserCommand;
             _getSingleUserQuery = singleUserQuery;
+            _removeUserCommand = removeUserCommand;
         }
 
 
@@ -73,16 +77,18 @@ namespace GroupBuilder.Controllers.User
 
         }
 
-        // PUT: api/User/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (ModelState.IsValid)
+            {
+                _removeUserCommand.Execute(id);
+                return Ok();
+            }
+            else {
+                return BadRequest("Error");
+            }
         }
     }
 }

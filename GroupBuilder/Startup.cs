@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using GroupBuilderApplication.Commands.CreateUser;
 using AutoMapper;
 using GroupBuilderApplication.Queries.GetSingleUser;
+using GroupBuilderApplication.Commands.RemoveUser;
 
 namespace GroupBuilder
 {
@@ -44,6 +45,7 @@ namespace GroupBuilder
             services.AddScoped<IGetUserListQuery, GetUserListQuery>();
             services.AddScoped<IGetSingleUserQuery, GetSingleUserQuery>();
             services.AddScoped<ICreateUserCommand, CreateUserCommand>();
+            services.AddScoped<IRemoveUserCommand, RemoveUserCommand>();
 
 
             // Auto Mapper Configurations
