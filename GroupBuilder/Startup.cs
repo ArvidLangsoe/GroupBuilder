@@ -15,6 +15,7 @@ using Microsoft.Extensions.Options;
 using GroupBuilderPersistence;
 using GroupBuilderPersistence.Shared;
 using Microsoft.EntityFrameworkCore;
+using GroupBuilderApplication.Commands.CreateUser;
 
 namespace GroupBuilder
 {
@@ -34,9 +35,16 @@ namespace GroupBuilder
 
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddScoped<IGetUserListQuery, GetUserListQuery>();
+            //User
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IGetUserListQuery, GetUserListQuery>();
+            services.AddScoped<ICreateUserCommand, CreateUserCommand>();
+            
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

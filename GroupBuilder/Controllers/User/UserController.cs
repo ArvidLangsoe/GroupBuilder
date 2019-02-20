@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GroupBuilderApplication.Queries.GetUserList;
+using GroupBuilderApplication.Commands.CreateUser;
 
 namespace GroupBuilder.Controllers.User
 {
@@ -13,19 +14,29 @@ namespace GroupBuilder.Controllers.User
     public class UserController : ControllerBase
     {
         private IGetUserListQuery _listQuery;
+        private ICreateUserCommand _createUserCommand;
 
         public UserController(
-            IGetUserListQuery listQuery)
+            IGetUserListQuery listQuery, ICreateUserCommand createUserCommand)
         {
             _listQuery = listQuery;
+            _createUserCommand = createUserCommand;
         }
 
 
         // GET: api/User
         [HttpGet]
-        public IEnumerable<UserListItem> Get()
+        public IActionResult Get()
         {
-            return _listQuery.Execute();
+            if (ModelState.IsValid)
+            {
+                return Ok(_listQuery.Execute());
+            }
+            else
+            {
+                return BadRequest("Error");
+            }
+          
         }
 
         // GET: api/User/5
@@ -37,8 +48,18 @@ namespace GroupBuilder.Controllers.User
 
         // POST: api/User
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] CreateUserModel user)
         {
+            if (ModelState.IsValid)
+            {
+                _createUserCommand.Execute(user);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("User data error");
+            }
+
         }
 
         // PUT: api/User/5

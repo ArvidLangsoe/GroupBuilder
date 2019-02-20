@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GroupBuilderPersistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190219150255_intial")]
-    partial class intial
+    [Migration("20190220072754_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
