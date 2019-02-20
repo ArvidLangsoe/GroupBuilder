@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GroupBuilderApplication.Commands.CreateUser;
+using GroupBuilderApplication.Queries.GetSingleUser;
 using GroupBuilderApplication.Queries.GetUserList;
 using GroupBuilderDomain;
 
@@ -11,6 +12,7 @@ namespace GroupBuilder
         {
             CreateMap<CreateUserModel, User>();
             CreateMap<User, UserListItem>();
+            CreateMap<User, UserDetailItem>();
 
         }
     }

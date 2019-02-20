@@ -17,6 +17,7 @@ using GroupBuilderPersistence.Shared;
 using Microsoft.EntityFrameworkCore;
 using GroupBuilderApplication.Commands.CreateUser;
 using AutoMapper;
+using GroupBuilderApplication.Queries.GetSingleUser;
 
 namespace GroupBuilder
 {
@@ -41,6 +42,7 @@ namespace GroupBuilder
             //User
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGetUserListQuery, GetUserListQuery>();
+            services.AddScoped<IGetSingleUserQuery, GetSingleUserQuery>();
             services.AddScoped<ICreateUserCommand, CreateUserCommand>();
 
 

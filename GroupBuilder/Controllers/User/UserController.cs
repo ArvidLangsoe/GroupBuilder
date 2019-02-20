@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GroupBuilderApplication.Queries.GetUserList;
 using GroupBuilderApplication.Commands.CreateUser;
+using GroupBuilderApplication.Queries.GetSingleUser;
 
 namespace GroupBuilder.Controllers.User
 {
@@ -15,12 +16,16 @@ namespace GroupBuilder.Controllers.User
     {
         private IGetUserListQuery _listQuery;
         private ICreateUserCommand _createUserCommand;
+        private IGetSingleUserQuery _getSingleUserQuery;
 
         public UserController(
-            IGetUserListQuery listQuery, ICreateUserCommand createUserCommand)
+            IGetUserListQuery listQuery, 
+            ICreateUserCommand createUserCommand,
+            IGetSingleUserQuery singleUserQuery)
         {
             _listQuery = listQuery;
             _createUserCommand = createUserCommand;
+            _getSingleUserQuery = singleUserQuery;
         }
 
 
@@ -41,9 +46,15 @@ namespace GroupBuilder.Controllers.User
 
         // GET: api/User/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            if (ModelState.IsValid)
+            {
+                return Ok(_getSingleUserQuery.Execute(id));
+            }
+            else {
+                return BadRequest("Error");
+            }
         }
 
         // POST: api/User
