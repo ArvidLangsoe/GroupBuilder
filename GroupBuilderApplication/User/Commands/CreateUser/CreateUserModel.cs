@@ -4,8 +4,12 @@ namespace GroupBuilderApplication.Commands.CreateUser
 {
     public class CreateUserModel
     {
-        [Required]
         public string StudentId { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+
+        public string Name { get; set; }
 
     }
 }

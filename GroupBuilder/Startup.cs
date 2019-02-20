@@ -16,6 +16,7 @@ using GroupBuilderPersistence;
 using GroupBuilderPersistence.Shared;
 using Microsoft.EntityFrameworkCore;
 using GroupBuilderApplication.Commands.CreateUser;
+using AutoMapper;
 
 namespace GroupBuilder
 {
@@ -41,7 +42,16 @@ namespace GroupBuilder
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGetUserListQuery, GetUserListQuery>();
             services.AddScoped<ICreateUserCommand, CreateUserCommand>();
-            
+
+
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
 
 

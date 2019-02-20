@@ -1,4 +1,5 @@
-﻿using GroupBuilderApplication.Interfaces.Persistence;
+﻿using AutoMapper;
+using GroupBuilderApplication.Interfaces.Persistence;
 using GroupBuilderDomain;
 using System;
 using System.Collections.Generic;
@@ -13,17 +14,17 @@ namespace GroupBuilderApplication.Commands.CreateUser
 
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateUserCommand(IUserRepository repository, IUnitOfWork unitOfWork) {
+        private readonly IMapper _mapper;
+
+        public CreateUserCommand(IUserRepository repository, IUnitOfWork unitOfWork, IMapper mapper) {
             _repository = repository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public void Execute(CreateUserModel model)
         {
-            var user = new User()
-            {
-                StudentId = model.StudentId
-            };
+            var user = _mapper.Map<User>(model);
 
             _repository.Add(user);
 
