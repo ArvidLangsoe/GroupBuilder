@@ -1,11 +1,13 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GroupBuilderDomain
 {
-    class Group
+    public class Group : IEntity
     {
-        ISet<User> Users { get; set; }
+        public int Id { get; set; }
+        ISet<User> Members { get; set; }
     }
 }

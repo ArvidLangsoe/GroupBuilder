@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GroupBuilderApplication.Interfaces.Persistence;
+using GroupBuilderApplication.Queries.GetUserList;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +12,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using GroupBuilderPersistence;
+using GroupBuilderPersistence.Shared;
+using Microsoft.EntityFrameworkCore;
+using GroupBuilderApplication.Commands.CreateUser;
+using AutoMapper;
+using GroupBuilderApplication.Queries.GetSingleUser;
+using GroupBuilderApplication.Commands.RemoveUser;
 
 namespace GroupBuilder
 {
@@ -26,6 +35,30 @@ namespace GroupBuilder
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDbContext<DatabaseContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            //User
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IGetUserListQuery, GetUserListQuery>();
+            services.AddScoped<IGetSingleUserQuery, GetSingleUserQuery>();
+            services.AddScoped<ICreateUserCommand, CreateUserCommand>();
+            services.AddScoped<IRemoveUserCommand, RemoveUserCommand>();
+
+
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
