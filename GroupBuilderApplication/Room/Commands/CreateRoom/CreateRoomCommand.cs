@@ -24,27 +24,18 @@ namespace GroupBuilderApplication.Commands.CreateRoom
         {
             var room = _mapper.Map<Room>(model);
             _roomRepository.Add(room);
-            //Ensure room has an id
-            _unitOfWork.Save();
             room.RoomCode = GenerateRoomCode();
-
             _unitOfWork.Save();
-
-
         }
 
 
         private string GenerateRoomCode()
         {
-            char[] codeOptions = {
-                'a', 'b', 'c', 'd', 'e',
-                'f', 'g', 'h', 'i', 'j',
-                'k', 'l', 'm', 'n', 'o',
-                'p', 'q', 'r', 's', 't',
-                'u', 'v', 'x', 'y', 'z',
-                '1', '2', '3', '4', '5',
-                '6', '7', '8', '9', '0',
-                '!', '&'
+            char[] charOptions = {
+                'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j',
+                'k', 'l', 'm', 'n', 'o','p', 'q', 'r', 's', 't',
+                'u', 'v', 'x', 'y', 'z','1', '2', '3', '4', '5',
+                '6', '7', '8', '9', '0','!', '&'
             };
 
             int minLength = 4;
@@ -54,10 +45,9 @@ namespace GroupBuilderApplication.Commands.CreateRoom
 
             while (!isUnique||codeBuilder.Length<minLength)
             {
-                int randomValue = randomizer.Next(codeOptions.Length);
-                codeBuilder.Append(codeOptions[randomValue]);
+                int randomValue = randomizer.Next(charOptions.Length);
+                codeBuilder.Append(charOptions[randomValue]);
 
-                //This call can probably be optimised.
                 if (codeBuilder.Length >= minLength) {
                     isUnique=_roomRepository.IsRoomCodeUnique(codeBuilder.ToString());
                 }
