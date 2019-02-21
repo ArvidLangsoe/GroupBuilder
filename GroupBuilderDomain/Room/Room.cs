@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GroupBuilderDomain
 {
-    public class Project : IEntity
+    public class Room : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

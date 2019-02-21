@@ -9,7 +9,7 @@ using GroupBuilderApplication.Commands.CreateUser;
 using GroupBuilderApplication.Queries.GetSingleUser;
 using GroupBuilderApplication.Commands.RemoveUser;
 
-namespace GroupBuilder.Controllers.User
+namespace GroupBuilder.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -49,7 +49,7 @@ namespace GroupBuilder.Controllers.User
         }
 
         // GET: api/User/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             if (ModelState.IsValid)

@@ -23,6 +23,8 @@ namespace GroupBuilderPersistence.Shared
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Room> Rooms { get; set; }
+
         public void Save()
         {
             this.SaveChanges();

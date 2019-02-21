@@ -19,6 +19,7 @@ using GroupBuilderApplication.Commands.CreateUser;
 using AutoMapper;
 using GroupBuilderApplication.Queries.GetSingleUser;
 using GroupBuilderApplication.Commands.RemoveUser;
+using GroupBuilderApplication.Commands.CreateRoom;
 
 namespace GroupBuilder
 {
@@ -47,6 +48,10 @@ namespace GroupBuilder
             services.AddScoped<ICreateUserCommand, CreateUserCommand>();
             services.AddScoped<IRemoveUserCommand, RemoveUserCommand>();
 
+
+            //Room
+            services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<ICreateRoomCommand, CreateRoomCommand>();
 
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>

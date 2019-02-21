@@ -27,7 +27,7 @@ namespace GroupBuilderPersistence.Shared
         public T Get(int id)
         {
             return _database.Set<T>()
-                .Single(p => p.Id == id);
+                .SingleOrDefault(p => p.Id == id);
         }
 
         public void Add(T entity)
