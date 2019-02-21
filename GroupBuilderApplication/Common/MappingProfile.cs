@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GroupBuilderApplication.Commands.AddParticipant;
 using GroupBuilderApplication.Commands.CreateRoom;
 using GroupBuilderApplication.Commands.CreateUser;
 using GroupBuilderApplication.Queries.GetRoomDetails;
@@ -19,6 +20,7 @@ namespace GroupBuilder
             CreateMap<CreateRoomModel, Room>();
             CreateMap<Room, RoomSimpleModel>();
             CreateMap<Room, RoomDetailModel>();
+            CreateMap<Participant, User>();
         }
     }
 }

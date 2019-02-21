@@ -8,6 +8,7 @@ using GroupBuilderApplication.Queries.GetRoomList;
 using GroupBuilderApplication.Commands.RemoveRoom;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using GroupBuilderApplication.Commands.AddParticipant;
 
 namespace GroupBuilder.Controllers.Room
 {
@@ -19,12 +20,15 @@ namespace GroupBuilder.Controllers.Room
         private IGetRoomListQuery _getRoomListQuery;
         private readonly IGetRoomDetailsQuery _getRoomDetailsQuery;
         private readonly IRemoveRoomCommand _removeRoomCommand;
+        private readonly IAddParticipantCommand _addParticipantCommand;
 
-        public RoomController(ICreateRoomCommand createRoomCommand, IRemoveRoomCommand removeRoomCommand, IGetRoomListQuery getRoomListQuery, IGetRoomDetailsQuery getRoomDetailsQuery) {
+        public RoomController(ICreateRoomCommand createRoomCommand, IRemoveRoomCommand removeRoomCommand, IGetRoomListQuery getRoomListQuery, IGetRoomDetailsQuery getRoomDetailsQuery, IAddParticipantCommand addParticipantCommand)
+        {
             _createRoomCommand = createRoomCommand;
             _getRoomListQuery = getRoomListQuery;
             _getRoomDetailsQuery = getRoomDetailsQuery;
             _removeRoomCommand = removeRoomCommand;
+            _addParticipantCommand = addParticipantCommand;
         }
 
         // GET: api/Room
@@ -37,7 +41,8 @@ namespace GroupBuilder.Controllers.Room
 
                 return Ok(rooms);
             }
-            else {
+            else
+            {
                 return BadRequest("Error");
             }
         }
@@ -68,9 +73,10 @@ namespace GroupBuilder.Controllers.Room
             if (ModelState.IsValid)
             {
                 var storedRoom = _createRoomCommand.Execute(newRoom);
-                return Created(Request.Path.Value+"/"+storedRoom.Id, storedRoom);
+                return Created(Request.Path.Value + "/" + storedRoom.Id, storedRoom);
             }
-            else {
+            else
+            {
                 return BadRequest("Something went wrong");
             }
         }
@@ -84,7 +90,22 @@ namespace GroupBuilder.Controllers.Room
                 _removeRoomCommand.Exceute(id);
                 return Ok();
             }
-            else {
+            else
+            {
+                return BadRequest("Error");
+            }
+        }
+
+        [HttpPost("{id}/Participants")]
+        public IActionResult AddParticipant(int id, [FromBody] Participant participant)
+        {
+            if (ModelState.IsValid)
+            {
+                _addParticipantCommand.Execute(participant, id);
+                return Ok();
+            }
+            else
+            {
                 return BadRequest("Error");
             }
         }

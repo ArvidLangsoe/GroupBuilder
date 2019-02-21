@@ -8,6 +8,7 @@ namespace GroupBuilderDomain
 {
     public class Room : IEntity
     {
+
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }

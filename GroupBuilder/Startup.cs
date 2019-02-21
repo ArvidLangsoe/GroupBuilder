@@ -23,6 +23,7 @@ using GroupBuilderApplication.Commands.CreateRoom;
 using GroupBuilderApplication.Queries.GetRoomList;
 using GroupBuilderApplication.Queries.GetRoomDetails;
 using GroupBuilderApplication.Commands.RemoveRoom;
+using GroupBuilderApplication.Commands.AddParticipant;
 
 namespace GroupBuilder
 {
@@ -56,6 +57,7 @@ namespace GroupBuilder
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<ICreateRoomCommand, CreateRoomCommand>();
             services.AddScoped<IRemoveRoomCommand, RemoveRoomCommand>();
+            services.AddScoped<IAddParticipantCommand, AddParticipantCommand>();
 
             services.AddScoped<IGetRoomListQuery, GetRoomListQuery>();
             services.AddScoped<IGetRoomDetailsQuery, GetRoomDetailsQuery>();
