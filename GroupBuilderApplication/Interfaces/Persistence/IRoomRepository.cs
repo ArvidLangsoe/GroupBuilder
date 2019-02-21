@@ -7,6 +7,6 @@ namespace GroupBuilderApplication.Interfaces.Persistence
 {
     public interface IRoomRepository : IRepository<Room>
     {
-
+        bool IsRoomCodeUnique(string roomCode);
     }
 }

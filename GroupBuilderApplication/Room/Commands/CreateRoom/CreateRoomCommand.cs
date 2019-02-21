@@ -3,6 +3,7 @@ using GroupBuilderApplication.Interfaces.Persistence;
 using GroupBuilderDomain;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace GroupBuilderApplication.Commands.CreateRoom
@@ -13,16 +14,58 @@ namespace GroupBuilderApplication.Commands.CreateRoom
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CreateRoomCommand(IRoomRepository roomRepository, IUnitOfWork unitOfWork, IMapper mapper) {
+        public CreateRoomCommand(IRoomRepository roomRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        {
             _roomRepository = roomRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
         public void Execute(CreateRoomModel model)
         {
-            var room=_mapper.Map<Room>(model);
+            var room = _mapper.Map<Room>(model);
             _roomRepository.Add(room);
+            //Ensure room has an id
             _unitOfWork.Save();
+            room.RoomCode = GenerateRoomCode();
+
+            _unitOfWork.Save();
+
+
+        }
+
+
+        private string GenerateRoomCode()
+        {
+            char[] codeOptions = {
+                'a', 'b', 'c', 'd', 'e',
+                'f', 'g', 'h', 'i', 'j',
+                'k', 'l', 'm', 'n', 'o',
+                'p', 'q', 'r', 's', 't',
+                'u', 'v', 'x', 'y', 'z',
+                '1', '2', '3', '4', '5',
+                '6', '7', '8', '9', '0',
+                '!', '&'
+            };
+
+            int minLength = 4;
+            Random randomizer = new Random();
+            StringBuilder codeBuilder = new StringBuilder();
+            bool isUnique = false;
+
+            while (!isUnique||codeBuilder.Length<minLength)
+            {
+                int randomValue = randomizer.Next(codeOptions.Length);
+                codeBuilder.Append(codeOptions[randomValue]);
+
+                //This call can probably be optimised.
+                if (codeBuilder.Length >= minLength) {
+                    isUnique=_roomRepository.IsRoomCodeUnique(codeBuilder.ToString());
+                }
+            }
+
+
+            return codeBuilder.ToString();
         }
     }
+
 }

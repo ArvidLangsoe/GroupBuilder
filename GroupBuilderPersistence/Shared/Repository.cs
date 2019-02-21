@@ -12,7 +12,7 @@ namespace GroupBuilderPersistence.Shared
         where T : class, IEntity
 
     {
-        private readonly DatabaseContext _database;
+        protected readonly DatabaseContext _database;
 
         public Repository(DatabaseContext database)
         {
