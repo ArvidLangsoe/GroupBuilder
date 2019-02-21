@@ -1,6 +1,6 @@
 ﻿namespace GroupBuilderApplication.Queries.GetUserList
 {
-    public class UserListItem
+    public class UserSimpleModel
     {
 
         public int Id { get; set; }

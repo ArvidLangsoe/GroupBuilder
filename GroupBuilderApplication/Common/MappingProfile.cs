@@ -14,7 +14,7 @@ namespace GroupBuilder
         public MappingProfile()
         {
             CreateMap<CreateUserModel, User>();
-            CreateMap<User, UserListItem>();
+            CreateMap<User, UserSimpleModel>();
             CreateMap<User, UserDetailItem>();
             CreateMap<CreateRoomModel, Room>();
             CreateMap<Room, RoomSimpleModel>();

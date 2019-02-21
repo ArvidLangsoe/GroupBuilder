@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GroupBuilderApplication.Interfaces.Persistence;
+using GroupBuilderApplication.Queries.GetRoomList;
 using GroupBuilderDomain;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,14 @@ namespace GroupBuilderApplication.Commands.CreateRoom
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public void Execute(CreateRoomModel model)
+        public RoomSimpleModel Execute(CreateRoomModel model)
         {
             var room = _mapper.Map<Room>(model);
             _roomRepository.Add(room);
             room.RoomCode = GenerateRoomCode();
             _unitOfWork.Save();
+
+            return _mapper.Map<RoomSimpleModel>(room);
         }
 
 

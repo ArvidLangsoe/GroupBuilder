@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GroupBuilderApplication.Commands.CreateRoom;
 using GroupBuilderApplication.Queries.GetRoomDetails;
 using GroupBuilderApplication.Queries.GetRoomList;
+using GroupBuilderApplication.Commands.RemoveRoom;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,13 @@ namespace GroupBuilder.Controllers.Room
         private ICreateRoomCommand _createRoomCommand;
         private IGetRoomListQuery _getRoomListQuery;
         private readonly IGetRoomDetailsQuery _getRoomDetailsQuery;
+        private readonly IRemoveRoomCommand _removeRoomCommand;
 
-        public RoomController(ICreateRoomCommand createRoomCommand, IGetRoomListQuery getRoomListQuery, IGetRoomDetailsQuery getRoomDetailsQuery) {
+        public RoomController(ICreateRoomCommand createRoomCommand, IRemoveRoomCommand removeRoomCommand, IGetRoomListQuery getRoomListQuery, IGetRoomDetailsQuery getRoomDetailsQuery) {
             _createRoomCommand = createRoomCommand;
             _getRoomListQuery = getRoomListQuery;
             _getRoomDetailsQuery = getRoomDetailsQuery;
+            _removeRoomCommand = removeRoomCommand;
         }
 
         // GET: api/Room
@@ -30,7 +33,9 @@ namespace GroupBuilder.Controllers.Room
         {
             if (ModelState.IsValid)
             {
-                return Ok(_getRoomListQuery.Execute());
+                var rooms = _getRoomListQuery.Execute();
+
+                return Ok(rooms);
             }
             else {
                 return BadRequest("Error");
@@ -43,7 +48,12 @@ namespace GroupBuilder.Controllers.Room
         {
             if (ModelState.IsValid)
             {
-                return Ok(_getRoomDetailsQuery.Execute(id));
+                var room = _getRoomDetailsQuery.Execute(id);
+                if (room == null)
+                {
+                    return NotFound();
+                }
+                return Ok(room);
             }
             else
             {
@@ -57,24 +67,26 @@ namespace GroupBuilder.Controllers.Room
         {
             if (ModelState.IsValid)
             {
-                _createRoomCommand.Execute(newRoom);
-                return Ok();
+                var storedRoom = _createRoomCommand.Execute(newRoom);
+                return Created(Request.Path.Value+"/"+storedRoom.Id, storedRoom);
             }
             else {
                 return BadRequest("Something went wrong");
             }
         }
 
-        // PUT: api/Room/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (ModelState.IsValid)
+            {
+                _removeRoomCommand.Exceute(id);
+                return Ok();
+            }
+            else {
+                return BadRequest("Error");
+            }
         }
     }
 }

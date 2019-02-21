@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GroupBuilderApplication.Interfaces.Persistence;
+using GroupBuilderApplication.Queries.GetUserList;
 using GroupBuilderDomain;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,15 @@ namespace GroupBuilderApplication.Commands.CreateUser
             _mapper = mapper;
         }
 
-        public void Execute(CreateUserModel model)
+        public UserSimpleModel Execute(CreateUserModel model)
         {
             var user = _mapper.Map<User>(model);
 
             _repository.Add(user);
 
             _unitOfWork.Save();
+
+            return _mapper.Map<UserSimpleModel>(user);
         }
     }
 }

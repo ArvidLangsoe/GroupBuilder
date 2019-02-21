@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GroupBuilderApplication.Queries.GetRoomList;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,6 @@ namespace GroupBuilderApplication.Commands.CreateRoom
 {
     public interface ICreateRoomCommand
     {
-        void Execute(CreateRoomModel model);
+        RoomSimpleModel Execute(CreateRoomModel model);
     }
 }

@@ -67,8 +67,8 @@ namespace GroupBuilder.Controllers
         {
             if (ModelState.IsValid)
             {
-                _createUserCommand.Execute(user);
-                return Ok();
+                var storedUser = _createUserCommand.Execute(user);
+                return Created(Request.Path.Value + "/" + storedUser.Id, storedUser);
             }
             else
             {
