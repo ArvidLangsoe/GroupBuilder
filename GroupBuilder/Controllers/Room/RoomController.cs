@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GroupBuilderApplication.Commands.CreateRoom;
+using GroupBuilderApplication.Queries.GetRoomDetails;
+using GroupBuilderApplication.Queries.GetRoomList;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,23 +15,40 @@ namespace GroupBuilder.Controllers.Room
     public class RoomController : ControllerBase
     {
         private ICreateRoomCommand _createRoomCommand;
+        private IGetRoomListQuery _getRoomListQuery;
+        private readonly IGetRoomDetailsQuery _getRoomDetailsQuery;
 
-        public RoomController(ICreateRoomCommand createRoomCommand) {
+        public RoomController(ICreateRoomCommand createRoomCommand, IGetRoomListQuery getRoomListQuery, IGetRoomDetailsQuery getRoomDetailsQuery) {
             _createRoomCommand = createRoomCommand;
+            _getRoomListQuery = getRoomListQuery;
+            _getRoomDetailsQuery = getRoomDetailsQuery;
         }
 
         // GET: api/Room
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            if (ModelState.IsValid)
+            {
+                return Ok(_getRoomListQuery.Execute());
+            }
+            else {
+                return BadRequest("Error");
+            }
         }
 
         // GET: api/Room/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            if (ModelState.IsValid)
+            {
+                return Ok(_getRoomDetailsQuery.Execute(id));
+            }
+            else
+            {
+                return BadRequest("Error");
+            }
         }
 
         // POST: api/Room
