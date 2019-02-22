@@ -23,7 +23,8 @@ namespace GroupBuilder
             CreateMap<CreateRoomModel, Room>();
             CreateMap<Room, RoomSimpleModel>();
             CreateMap<Room, RoomDetailModel>();
-            CreateMap<RoomParticipant, User>();
+            CreateMap<Participant, User>();
+            CreateMap<RoomParticipant, RoomParticipantModel>();
 
             CreateMap<CreateGroupModel, Group>();
             CreateMap<Group, GroupSimpleModel>();

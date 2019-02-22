@@ -1,4 +1,9 @@
-﻿namespace GroupBuilderApplication.Queries.GetRoomDetails
+﻿using GroupBuilderApplication.Queries.GetUserList;
+using GroupBuilderApplication.Shared;
+using GroupBuilderDomain;
+using System.Collections.Generic;
+
+namespace GroupBuilderApplication.Queries.GetRoomDetails
 {
     public class RoomDetailModel
     {
@@ -6,5 +11,8 @@
         public string Name { get; set; }
         public string RoomCode { get; set; }
 
+        public List<RoomParticipantModel> Participants { get; set; }
+
+        public List<GroupSimpleModel> Groups { get; set; }
     }
 }

@@ -8,5 +8,7 @@ namespace GroupBuilderApplication.Shared
     public class GroupSimpleModel
     {
         public int Id { get; set; }
+
+        public int RoomId { get; set; }
     }
 }

@@ -26,6 +26,7 @@ using GroupBuilderApplication.Commands.RemoveRoom;
 using GroupBuilderApplication.Commands.AddParticipant;
 using GroupBuilderApplication.Commands.RemoveParticipant;
 using GroupBuilderApplication.Commands.CreateGroup;
+using GroupBuilderApplication.Queries;
 
 namespace GroupBuilder
 {
@@ -69,6 +70,8 @@ namespace GroupBuilder
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<ICreateGroupCommand, CreateGroupCommand>();
 
+            services.AddScoped<IGetGroupListQuery, GetGroupListQuery>();
+
 
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
@@ -79,7 +82,8 @@ namespace GroupBuilder
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-
+            //Avoid loops when serializing json
+            services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
         }
 

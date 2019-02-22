@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GroupBuilderApplication.Commands.CreateGroup;
+using GroupBuilderApplication.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +15,28 @@ namespace GroupBuilder.Controllers
     {
 
         ICreateGroupCommand _createGroupCommand;
+        IGetGroupListQuery _getGroupListQuery;
 
-        public GroupController(ICreateGroupCommand createGroupCommand) {
+        public GroupController(ICreateGroupCommand createGroupCommand, IGetGroupListQuery getGroupListQuery) {
             _createGroupCommand = createGroupCommand;
+            _getGroupListQuery = getGroupListQuery;
         }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            if (ModelState.IsValid)
+            {
+                var groups = _getGroupListQuery.Execute();
+
+                return Ok(groups);
+            }
+            else
+            {
+                return BadRequest("Error");
+            }
+        }
+
 
         [HttpPost]
         public IActionResult Post([FromBody] CreateGroupModel newGroup)
