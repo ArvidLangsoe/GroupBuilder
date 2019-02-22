@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GroupBuilderApplication.Commands.AddGroupMember;
 using GroupBuilderApplication.Commands.CreateGroup;
 using GroupBuilderApplication.Commands.RemoveGroup;
+using GroupBuilderApplication.Commands.RemoveGroupMember;
 using GroupBuilderApplication.Queries;
 using GroupBuilderApplication.Queries.GetGroupDetails;
 using GroupBuilderApplication.Shared;
@@ -22,14 +23,16 @@ namespace GroupBuilder.Controllers
         IGetGroupListQuery _getGroupListQuery;
         private IRemoveGroupCommand _removeGroupCommand;
         private IAddGroupMemberCommand _addGroupMemberCommand;
+        private IRemoveGroupMemberCommand _removeGroupMemberCommand;
         private readonly IGetGroupDetailsQuery _getGroupDetailsQuery;
 
-        public GroupController(ICreateGroupCommand createGroupCommand, IGetGroupListQuery getGroupListQuery, IGetGroupDetailsQuery getGroupDetailsQuery, IRemoveGroupCommand removeGroupCommand, IAddGroupMemberCommand groupMemberCommand) {
+        public GroupController(ICreateGroupCommand createGroupCommand, IGetGroupListQuery getGroupListQuery, IGetGroupDetailsQuery getGroupDetailsQuery, IRemoveGroupCommand removeGroupCommand, IAddGroupMemberCommand addGroupMemberCommand, IRemoveGroupMemberCommand removeGroupMemberCommand) {
             _createGroupCommand = createGroupCommand;
             _getGroupListQuery = getGroupListQuery;
             _getGroupDetailsQuery = getGroupDetailsQuery;
             _removeGroupCommand = removeGroupCommand;
-            _addGroupMemberCommand = groupMemberCommand;
+            _addGroupMemberCommand = addGroupMemberCommand;
+            _removeGroupMemberCommand = removeGroupMemberCommand;
         }
 
         [HttpGet]
@@ -95,11 +98,25 @@ namespace GroupBuilder.Controllers
         }
 
         [HttpPost("{id}/Members")]
-        public IActionResult AddParticipant(int id, [FromBody] Member newMember)
+        public IActionResult AddMember(int id, [FromBody] Member newMember)
         {
             if (ModelState.IsValid)
             {
                 _addGroupMemberCommand.Execute(id, newMember);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Error");
+            }
+        }
+
+        [HttpDelete("{id}/Members")]
+        public IActionResult RemoveMember(int id, [FromBody] Member member)
+        {
+            if (ModelState.IsValid)
+            {
+                _removeGroupMemberCommand.Execute(id, member);
                 return Ok();
             }
             else

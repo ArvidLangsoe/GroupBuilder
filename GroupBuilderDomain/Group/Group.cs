@@ -18,6 +18,6 @@ namespace GroupBuilderDomain
         public int RoomId { get; set; }
         public Room Room { get; set; }
 
-        public ICollection<GroupMember> Members { get; set; }
+        public List<GroupMember> Members { get; set; }
     }
 }

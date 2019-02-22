@@ -30,6 +30,7 @@ using GroupBuilderApplication.Queries;
 using GroupBuilderApplication.Queries.GetGroupDetails;
 using GroupBuilderApplication.Commands.RemoveGroup;
 using GroupBuilderApplication.Commands.AddGroupMember;
+using GroupBuilderApplication.Commands.RemoveGroupMember;
 
 namespace GroupBuilder
 {
@@ -74,6 +75,7 @@ namespace GroupBuilder
             services.AddScoped<ICreateGroupCommand, CreateGroupCommand>();
             services.AddScoped<IRemoveGroupCommand, RemoveGroupCommand>();
             services.AddScoped<IAddGroupMemberCommand, AddGroupMemberCommand>();
+            services.AddScoped<IRemoveGroupMemberCommand, RemoveGroupMemberCommand>();
 
             services.AddScoped<IGetGroupListQuery, GetGroupListQuery>();
             services.AddScoped<IGetGroupDetailsQuery, GetGroupDetailsQuery>();
