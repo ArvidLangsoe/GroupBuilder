@@ -3,6 +3,7 @@ using GroupBuilderApplication.Interfaces.Persistence;
 using GroupBuilderDomain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GroupBuilderApplication.Commands.AddParticipant
@@ -27,6 +28,10 @@ namespace GroupBuilderApplication.Commands.AddParticipant
 
             var user = _userRepository.Get(participant.Id);
             var room = _roomRepository.Get(roomId);
+
+            if (room.Participants.Any(p => p.UserId == user.Id)) {
+                throw new ArgumentException("This user is already participating in this room.");
+            }
 
             room.Participants.Add(new RoomParticipant { Room = room, User = user });
             _unitOfWork.Save();
