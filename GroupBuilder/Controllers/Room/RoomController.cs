@@ -92,7 +92,7 @@ namespace GroupBuilder.Controllers.Room
         {
             if (ModelState.IsValid)
             {
-                _removeRoomCommand.Exceute(id);
+                _removeRoomCommand.Execute(id);
                 return Ok();
             }
             else

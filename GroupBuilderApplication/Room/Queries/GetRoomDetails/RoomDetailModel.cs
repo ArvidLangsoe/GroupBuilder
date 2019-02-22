@@ -11,7 +11,7 @@ namespace GroupBuilderApplication.Queries.GetRoomDetails
         public string Name { get; set; }
         public string RoomCode { get; set; }
 
-        public List<RoomParticipantModel> Participants { get; set; }
+        public List<ParticipantModel> Participants { get; set; }
 
         public List<GroupSimpleModel> Groups { get; set; }
     }

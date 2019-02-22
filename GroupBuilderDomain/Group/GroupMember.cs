@@ -5,14 +5,16 @@ using System.Text;
 
 namespace GroupBuilderDomain
 {
-    public class RoomParticipant
+    public class GroupMember
     {
 
         [Key]
         public int UserId { get; set; }
         public User User { get; set; }
+
         [Key]
-        public int RoomId { get; set; }
-        public Room Room { get; set; }
+        public int GroupId { get; set; }
+        public Group Group { get; set; }
+
     }
 }

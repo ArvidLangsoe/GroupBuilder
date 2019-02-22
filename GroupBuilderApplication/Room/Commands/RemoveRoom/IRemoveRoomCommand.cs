@@ -6,6 +6,6 @@ namespace GroupBuilderApplication.Commands.RemoveRoom
 {
     public interface IRemoveRoomCommand
     {
-        void Exceute(int id);
+        void Execute(int id);
     }
 }

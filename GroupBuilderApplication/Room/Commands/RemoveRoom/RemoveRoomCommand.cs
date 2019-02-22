@@ -20,7 +20,7 @@ namespace GroupBuilderApplication.Commands.RemoveRoom
             _mapper = mapper;
         }
 
-        public void Exceute(int id)
+        public void Execute(int id)
         {
             _roomRepository.Remove(_roomRepository.Get(id));
             _unitOfWork.Save();

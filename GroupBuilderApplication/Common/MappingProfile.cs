@@ -9,6 +9,7 @@ using GroupBuilderApplication.Queries.GetSingleUser;
 using GroupBuilderApplication.Queries.GetUserList;
 using GroupBuilderDomain;
 using GroupBuilderApplication.Commands.CreateGroup;
+using GroupBuilderApplication.Queries.GetGroupDetails;
 
 namespace GroupBuilder
 {
@@ -24,10 +25,15 @@ namespace GroupBuilder
             CreateMap<Room, RoomSimpleModel>();
             CreateMap<Room, RoomDetailModel>();
             CreateMap<Participant, User>();
-            CreateMap<RoomParticipant, RoomParticipantModel>();
+            CreateMap<RoomParticipant, ParticipantModel>();
+            CreateMap<RoomParticipant, RoomModel>();
 
             CreateMap<CreateGroupModel, Group>();
             CreateMap<Group, GroupSimpleModel>();
+            CreateMap<Group, GroupDetailModel>();
+            CreateMap<GroupMember, MemberModel>();
+            CreateMap<GroupMember, GroupModel>();
+
 
         }
     }

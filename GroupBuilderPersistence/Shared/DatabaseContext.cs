@@ -21,8 +21,13 @@ namespace GroupBuilderPersistence.Shared
             builder.Entity<RoomParticipant>().HasOne<Room>(rp => rp.Room).WithMany(r => r.Participants).HasForeignKey(rp => rp.RoomId);
             builder.Entity<RoomParticipant>().HasOne<User>(rp => rp.User).WithMany(u => u.Rooms).HasForeignKey(rp => rp.UserId);
 
-
+            //Room groups
             builder.Entity<Group>().HasOne<Room>(g => g.Room).WithMany(r => r.Groups).HasForeignKey(g => g.RoomId);
+
+            //Groupmembers
+            builder.Entity<GroupMember>().HasKey(gm => new { gm.UserId, gm.GroupId });
+            builder.Entity<GroupMember>().HasOne<Group>(gm => gm.Group).WithMany(g => g.Members).HasForeignKey(gm => gm.GroupId);
+            builder.Entity<GroupMember>().HasOne<User>(rp => rp.User).WithMany(u => u.Groups).HasForeignKey(rp => rp.UserId);
 
         }
 
@@ -33,6 +38,7 @@ namespace GroupBuilderPersistence.Shared
 
         public DbSet<RoomParticipant> RoomParticipants { get; set; }
         public DbSet<Group> Groups { get;set; }
+        public DbSet<GroupMember> GroupMembers { get; set; } 
 
 
         public void Save()

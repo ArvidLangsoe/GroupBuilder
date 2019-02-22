@@ -27,6 +27,9 @@ using GroupBuilderApplication.Commands.AddParticipant;
 using GroupBuilderApplication.Commands.RemoveParticipant;
 using GroupBuilderApplication.Commands.CreateGroup;
 using GroupBuilderApplication.Queries;
+using GroupBuilderApplication.Queries.GetGroupDetails;
+using GroupBuilderApplication.Commands.RemoveGroup;
+using GroupBuilderApplication.Commands.AddGroupMember;
 
 namespace GroupBuilder
 {
@@ -69,8 +72,11 @@ namespace GroupBuilder
             //Group
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<ICreateGroupCommand, CreateGroupCommand>();
+            services.AddScoped<IRemoveGroupCommand, RemoveGroupCommand>();
+            services.AddScoped<IAddGroupMemberCommand, AddGroupMemberCommand>();
 
             services.AddScoped<IGetGroupListQuery, GetGroupListQuery>();
+            services.AddScoped<IGetGroupDetailsQuery, GetGroupDetailsQuery>();
 
 
             // Auto Mapper Configurations
