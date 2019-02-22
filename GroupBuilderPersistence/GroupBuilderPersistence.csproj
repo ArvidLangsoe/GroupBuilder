@@ -5,12 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190221121021_Room-Code.cs" />
+    <Compile Remove="Migrations\20190222070937_M-M-Room.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Toolbelt.EntityFrameworkCore.IndexAttribute" Version="1.0.2.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -19,6 +19,18 @@ using GroupBuilderApplication.Commands.CreateUser;
 using AutoMapper;
 using GroupBuilderApplication.Queries.GetSingleUser;
 using GroupBuilderApplication.Commands.RemoveUser;
+using GroupBuilderApplication.Commands.CreateRoom;
+using GroupBuilderApplication.Queries.GetRoomList;
+using GroupBuilderApplication.Queries.GetRoomDetails;
+using GroupBuilderApplication.Commands.RemoveRoom;
+using GroupBuilderApplication.Commands.AddParticipant;
+using GroupBuilderApplication.Commands.RemoveParticipant;
+using GroupBuilderApplication.Commands.CreateGroup;
+using GroupBuilderApplication.Queries;
+using GroupBuilderApplication.Queries.GetGroupDetails;
+using GroupBuilderApplication.Commands.RemoveGroup;
+using GroupBuilderApplication.Commands.AddGroupMember;
+using GroupBuilderApplication.Commands.RemoveGroupMember;
 
 namespace GroupBuilder
 {
@@ -48,6 +60,27 @@ namespace GroupBuilder
             services.AddScoped<IRemoveUserCommand, RemoveUserCommand>();
 
 
+            //Room
+            services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<ICreateRoomCommand, CreateRoomCommand>();
+            services.AddScoped<IRemoveRoomCommand, RemoveRoomCommand>();
+            services.AddScoped<IAddParticipantCommand, AddParticipantCommand>();
+            services.AddScoped<IRemoveParticipantCommand, RemoveParticipantCommand>();
+
+            services.AddScoped<IGetRoomListQuery, GetRoomListQuery>();
+            services.AddScoped<IGetRoomDetailsQuery, GetRoomDetailsQuery>();
+
+            //Group
+            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<ICreateGroupCommand, CreateGroupCommand>();
+            services.AddScoped<IRemoveGroupCommand, RemoveGroupCommand>();
+            services.AddScoped<IAddGroupMemberCommand, AddGroupMemberCommand>();
+            services.AddScoped<IRemoveGroupMemberCommand, RemoveGroupMemberCommand>();
+
+            services.AddScoped<IGetGroupListQuery, GetGroupListQuery>();
+            services.AddScoped<IGetGroupDetailsQuery, GetGroupDetailsQuery>();
+
+
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -57,7 +90,8 @@ namespace GroupBuilder
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-
+            //Avoid loops when serializing json
+            services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
         }
 

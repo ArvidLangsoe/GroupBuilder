@@ -18,10 +18,10 @@ namespace GroupBuilderApplication.Queries.GetUserList
             _mapper = mapper;
         }
 
-        public List<UserListItem> Execute()
+        public List<UserSimpleModel> Execute()
         {
             var users = _repository.GetAll().ToList();
-            return _mapper.Map<List<UserListItem>>(users);
+            return _mapper.Map<List<UserSimpleModel>>(users);
 
         }
     }

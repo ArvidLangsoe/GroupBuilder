@@ -7,6 +7,6 @@ namespace GroupBuilderApplication.Queries.GetUserList
 {
     public interface IGetUserListQuery
     {
-        List<UserListItem> Execute();
+        List<UserSimpleModel> Execute();
     }
 }

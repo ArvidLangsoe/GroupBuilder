@@ -11,5 +11,6 @@ namespace GroupBuilderApplication.Interfaces.Persistence
         void Add(T entity);
 
         void Remove(T Entity);
+
     }
 }
