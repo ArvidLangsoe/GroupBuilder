@@ -25,6 +25,7 @@ using GroupBuilderApplication.Queries.GetRoomDetails;
 using GroupBuilderApplication.Commands.RemoveRoom;
 using GroupBuilderApplication.Commands.AddParticipant;
 using GroupBuilderApplication.Commands.RemoveParticipant;
+using GroupBuilderApplication.Commands.CreateGroup;
 
 namespace GroupBuilder
 {
@@ -63,6 +64,10 @@ namespace GroupBuilder
 
             services.AddScoped<IGetRoomListQuery, GetRoomListQuery>();
             services.AddScoped<IGetRoomDetailsQuery, GetRoomDetailsQuery>();
+
+            //Group
+            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<ICreateGroupCommand, CreateGroupCommand>();
 
 
             // Auto Mapper Configurations

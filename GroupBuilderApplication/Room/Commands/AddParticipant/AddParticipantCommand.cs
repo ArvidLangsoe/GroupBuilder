@@ -24,7 +24,7 @@ namespace GroupBuilderApplication.Commands.AddParticipant
             _userRepository = userRepository;
         }
 
-        public void Execute(Participant participant, int roomId)
+        public void Execute(Shared.Participant participant, int roomId)
         {
 
             var user = _userRepository.Get(participant.Id);
@@ -34,7 +34,7 @@ namespace GroupBuilderApplication.Commands.AddParticipant
                 throw new ArgumentException("This user is already participating in this room.");
             }
 
-            room.Participants.Add(new RoomParticipant { Room = room, User = user });
+            room.Participants.Add(new GroupBuilderDomain.RoomParticipant { Room = room, User = user });
             _unitOfWork.Save();
 
         }
