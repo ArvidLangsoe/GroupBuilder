@@ -8,15 +8,19 @@ namespace GroupBuilderDomain
 {
     public class Room : IEntity
     {
+        public Room() {
+            Participants = new List<RoomParticipant>();
+            Groups = new List<Group>();
+        }
 
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string RoomCode { get; set; }
 
-        public ISet<User> Participants { get; set; }
+        public List<RoomParticipant> Participants { get; set; }
 
-        public ISet<Group> Groups { get; set; }
+        public List<Group> Groups { get; set; }
 
     }
 }

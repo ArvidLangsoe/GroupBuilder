@@ -15,7 +15,9 @@ namespace GroupBuilderDomain
 
         public string Name { get; set; }
 
-        
+        public List<RoomParticipant> Rooms { get; set; }
+
+
         public string StudentId { get; set; }
     }
 

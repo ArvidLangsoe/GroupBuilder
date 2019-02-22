@@ -28,8 +28,7 @@ namespace GroupBuilderApplication.Commands.AddParticipant
             var user = _userRepository.Get(participant.Id);
             var room = _roomRepository.Get(roomId);
 
-            error participants are not added correctly probably need many to many relation.
-            room.Participants.Add(user);
+            room.Participants.Add(new RoomParticipant { Room = room, User = user });
             _unitOfWork.Save();
 
         }
