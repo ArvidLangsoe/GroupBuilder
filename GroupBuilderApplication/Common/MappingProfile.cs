@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GroupBuilderApplication.Shared;
 using GroupBuilderApplication.Commands.AddParticipant;
 using GroupBuilderApplication.Commands.CreateRoom;
 using GroupBuilderApplication.Commands.CreateUser;

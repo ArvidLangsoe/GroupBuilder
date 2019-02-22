@@ -1,4 +1,4 @@
-﻿namespace GroupBuilderApplication.Queries.GetRoomList
+﻿namespace GroupBuilderApplication.Shared
 {
     public class RoomSimpleModel
     {

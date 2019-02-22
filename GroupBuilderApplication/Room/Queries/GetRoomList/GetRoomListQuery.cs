@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GroupBuilderApplication.Shared;
 using GroupBuilderApplication.Interfaces.Persistence;
 using System;
 using System.Collections.Generic;

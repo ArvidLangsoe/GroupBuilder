@@ -1,22 +1,20 @@
 ﻿using AutoMapper;
-using GroupBuilderApplication.Shared;
 using GroupBuilderApplication.Interfaces.Persistence;
-using GroupBuilderDomain;
+using GroupBuilderApplication.Shared;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace GroupBuilderApplication.Commands.AddParticipant
+namespace GroupBuilderApplication.Commands.RemoveParticipant
 {
-    public class AddParticipantCommand : IAddParticipantCommand
+    public class RemoveParticipantCommand : IRemoveParticipantCommand
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoomRepository _roomRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public AddParticipantCommand(IRoomRepository roomRepository, IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository)
+        public RemoveParticipantCommand(IRoomRepository roomRepository, IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository)
         {
             _roomRepository = roomRepository;
             _unitOfWork = unitOfWork;
@@ -26,17 +24,9 @@ namespace GroupBuilderApplication.Commands.AddParticipant
 
         public void Execute(Participant participant, int roomId)
         {
-
-            var user = _userRepository.Get(participant.Id);
             var room = _roomRepository.Get(roomId);
-
-            if (room.Participants.Any(p => p.UserId == user.Id)) {
-                throw new ArgumentException("This user is already participating in this room.");
-            }
-
-            room.Participants.Add(new RoomParticipant { Room = room, User = user });
+            room.Participants.RemoveAll(rp => rp.UserId == participant.Id);
             _unitOfWork.Save();
-
         }
     }
 }

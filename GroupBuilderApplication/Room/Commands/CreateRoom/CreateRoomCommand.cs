@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GroupBuilderApplication.Shared;
 using GroupBuilderApplication.Interfaces.Persistence;
 using GroupBuilderApplication.Queries.GetRoomList;
 using GroupBuilderDomain;

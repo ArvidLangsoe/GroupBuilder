@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GroupBuilderApplication.Commands.AddParticipant
+namespace GroupBuilderApplication.Shared
 {
     public class Participant
     {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using GroupBuilderApplication.Commands.CreateRoom;
 using GroupBuilderApplication.Queries.GetRoomDetails;
 using GroupBuilderApplication.Queries.GetRoomList;
@@ -9,6 +10,8 @@ using GroupBuilderApplication.Commands.RemoveRoom;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GroupBuilderApplication.Commands.AddParticipant;
+using GroupBuilderApplication.Shared;
+using GroupBuilderApplication.Commands.RemoveParticipant;
 
 namespace GroupBuilder.Controllers.Room
 {
@@ -21,14 +24,16 @@ namespace GroupBuilder.Controllers.Room
         private readonly IGetRoomDetailsQuery _getRoomDetailsQuery;
         private readonly IRemoveRoomCommand _removeRoomCommand;
         private readonly IAddParticipantCommand _addParticipantCommand;
+        private readonly IRemoveParticipantCommand _removeParticipantCommand;
 
-        public RoomController(ICreateRoomCommand createRoomCommand, IRemoveRoomCommand removeRoomCommand, IGetRoomListQuery getRoomListQuery, IGetRoomDetailsQuery getRoomDetailsQuery, IAddParticipantCommand addParticipantCommand)
+        public RoomController(ICreateRoomCommand createRoomCommand, IRemoveRoomCommand removeRoomCommand, IGetRoomListQuery getRoomListQuery, IGetRoomDetailsQuery getRoomDetailsQuery, IAddParticipantCommand addParticipantCommand, IRemoveParticipantCommand removeParticipantCommand)
         {
             _createRoomCommand = createRoomCommand;
             _getRoomListQuery = getRoomListQuery;
             _getRoomDetailsQuery = getRoomDetailsQuery;
             _removeRoomCommand = removeRoomCommand;
             _addParticipantCommand = addParticipantCommand;
+            _removeParticipantCommand = removeParticipantCommand;
         }
 
         // GET: api/Room
@@ -102,6 +107,20 @@ namespace GroupBuilder.Controllers.Room
             if (ModelState.IsValid)
             {
                 _addParticipantCommand.Execute(participant, id);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Error");
+            }
+        }
+
+        [HttpDelete("{id}/Participants")]
+        public IActionResult RemoveParticipant(int id, [FromBody] Participant participant)
+        {
+            if (ModelState.IsValid)
+            {
+                _removeParticipantCommand.Execute(participant, id);
                 return Ok();
             }
             else

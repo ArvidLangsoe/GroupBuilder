@@ -16,7 +16,7 @@ namespace GroupBuilderPersistence.Shared
         {
             base.OnModelCreating(builder);
             
-            //Participants
+            //Participants many to many relation
             builder.Entity<RoomParticipant>().HasKey(rg => new { rg.UserId, rg.RoomId });
             builder.Entity<RoomParticipant>().HasOne<Room>(rp => rp.Room).WithMany(r => r.Participants).HasForeignKey(rp => rp.RoomId);
             builder.Entity<RoomParticipant>().HasOne<User>(rp => rp.User).WithMany(u => u.Rooms).HasForeignKey(rp => rp.UserId);

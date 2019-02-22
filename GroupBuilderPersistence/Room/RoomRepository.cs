@@ -1,6 +1,7 @@
 ﻿using GroupBuilderApplication.Interfaces.Persistence;
 using GroupBuilderDomain;
 using GroupBuilderPersistence.Shared;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,12 @@ namespace GroupBuilderPersistence
         {
             return !_database.Rooms.Any(r => r.RoomCode.Equals(roomCode));
         }
+
+        public new Room Get(int id)
+        {
+            return _database.Rooms.Include(r => r.Participants).ThenInclude(rp => rp.User).Include(r => r.Groups)
+                .SingleOrDefault(p => p.Id == id);
+        }
+
     }
 }
