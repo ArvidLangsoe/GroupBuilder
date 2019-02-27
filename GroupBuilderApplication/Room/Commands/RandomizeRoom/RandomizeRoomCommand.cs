@@ -41,7 +41,7 @@ namespace GroupBuilderApplication.Commands.RandomizeRoom
         {
             var room = _roomRepository.Get(roomId);
             var randomizer = _randomizerFactory.CreateRandomizer(randomizerModel);
-            //This does not work ---->
+            //This does not work 
             var userWithGroups = room.Groups.Select(g => g.Members).Aggregate((l1, l2) => { l1.AddRange(l2);return l1; } ).Select(gm => gm.User);
 
             var usersWithNoGroup = _userRepository.GetAll().Where(u => !userWithGroups.Contains(u));
