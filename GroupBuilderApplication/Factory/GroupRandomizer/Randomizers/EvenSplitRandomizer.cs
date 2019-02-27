@@ -52,13 +52,20 @@ namespace GroupBuilderApplication.Factory.GroupRandomizer.Randomizers
             while (randomizedList.Count > 0) {
                 Group currentGroup = new Group();
                 for (int i = 0; i<idealGroupSize; i++) {
+                    var user = randomizedList.LastOrDefault();
+                    if (users == null) {
+                        break;
+                    }
+                    users.Remove(user);
 
+                    currentGroup.Members.Add(
+                        new GroupMember {
+                            User = user
+                    });
                 }
+                groups.Add(currentGroup);
             }
-            
-
-            
-            throw new NotImplementedException();
+            return groups;
         }
 
 
