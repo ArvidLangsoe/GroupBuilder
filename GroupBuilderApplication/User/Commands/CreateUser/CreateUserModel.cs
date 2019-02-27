@@ -4,6 +4,7 @@ namespace GroupBuilderApplication.Commands.CreateUser
 {
     public class CreateUserModel
     {
+        //Maybe change this to more general information so that each group can have different values.
         public string StudentId { get; set; }
 
         [Required]
@@ -11,5 +12,6 @@ namespace GroupBuilderApplication.Commands.CreateUser
 
         public string Name { get; set; }
 
+        public string Password { get; set; }
     }
 }

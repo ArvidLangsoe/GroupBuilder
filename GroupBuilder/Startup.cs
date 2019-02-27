@@ -31,6 +31,11 @@ using GroupBuilderApplication.Queries.GetGroupDetails;
 using GroupBuilderApplication.Commands.RemoveGroup;
 using GroupBuilderApplication.Commands.AddGroupMember;
 using GroupBuilderApplication.Commands.RemoveGroupMember;
+using GroupBuilderApplication.Commands.LoginUser;
+using GroupBuilder.Controllers.Shared;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace GroupBuilder
 {
@@ -58,6 +63,7 @@ namespace GroupBuilder
             services.AddScoped<IGetSingleUserQuery, GetSingleUserQuery>();
             services.AddScoped<ICreateUserCommand, CreateUserCommand>();
             services.AddScoped<IRemoveUserCommand, RemoveUserCommand>();
+            services.AddScoped<ILoginUserCommand, LoginUserCommand>();
 
 
             //Room
@@ -90,6 +96,8 @@ namespace GroupBuilder
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
+            ConfigureJWT(services);
+
             //Avoid loops when serializing json
             services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
@@ -106,9 +114,54 @@ namespace GroupBuilder
             {
                 app.UseHsts();
             }
-
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+
+
+        private void ConfigureJWT(IServiceCollection services) {
+            // configure jwt authentication
+            var authenticationSection = Configuration.GetSection("Authentication");
+            services.Configure<Authentication>(authenticationSection);
+
+            var authentication = authenticationSection.Get<Authentication>();
+            var key = Encoding.ASCII.GetBytes(authentication.Secret);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        
+                        var userQuery = context.HttpContext.RequestServices.GetRequiredService<IGetSingleUserQuery>();
+                        var userId = int.Parse(context.Principal.Identity.Name);
+
+                        var user = userQuery.Execute(userId);
+                        if (user == null)
+                        {
+                            // return unauthorized if user no longer exists
+                            context.Fail("Unauthorized");
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
         }
     }
 }

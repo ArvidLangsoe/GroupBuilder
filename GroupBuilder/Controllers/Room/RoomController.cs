@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using GroupBuilderApplication.Commands.AddParticipant;
 using GroupBuilderApplication.Shared;
 using GroupBuilderApplication.Commands.RemoveParticipant;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GroupBuilder.Controllers.Room
 {
@@ -53,6 +54,7 @@ namespace GroupBuilder.Controllers.Room
         }
 
         // GET: api/Room/5
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -72,6 +74,8 @@ namespace GroupBuilder.Controllers.Room
         }
 
         // POST: api/Room
+
+        [Authorize]
         [HttpPost]
         public IActionResult Post([FromBody] CreateRoomModel newRoom)
         {
@@ -87,6 +91,7 @@ namespace GroupBuilder.Controllers.Room
         }
 
         // DELETE: api/ApiWithActions/5
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -101,6 +106,7 @@ namespace GroupBuilder.Controllers.Room
             }
         }
 
+        [Authorize]
         [HttpPost("{id}/Participants")]
         public IActionResult AddParticipant(int id, [FromBody] Participant participant)
         {
@@ -115,6 +121,7 @@ namespace GroupBuilder.Controllers.Room
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}/Participants")]
         public IActionResult RemoveParticipant(int id, [FromBody] Participant participant)
         {

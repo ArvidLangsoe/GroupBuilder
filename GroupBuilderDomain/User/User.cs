@@ -17,10 +17,10 @@ namespace GroupBuilderDomain
 
         public List<RoomParticipant> Rooms { get; set; }
 
-
         public ICollection<GroupMember> Groups { get; set; }
 
         public string StudentId { get; set; }
+        public string PasswordHash { get; set; }
     }
 
 
