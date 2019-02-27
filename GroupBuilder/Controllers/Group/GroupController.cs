@@ -20,29 +20,13 @@ namespace GroupBuilder.Controllers
     public class GroupController : ControllerBase
     {
 
-        ICreateGroupCommand _createGroupCommand;
-        IGetGroupListQuery _getGroupListQuery;
-        private IRemoveGroupCommand _removeGroupCommand;
-        private IAddGroupMemberCommand _addGroupMemberCommand;
-        private IRemoveGroupMemberCommand _removeGroupMemberCommand;
-        private readonly IGetGroupDetailsQuery _getGroupDetailsQuery;
-
-        public GroupController(ICreateGroupCommand createGroupCommand, IGetGroupListQuery getGroupListQuery, IGetGroupDetailsQuery getGroupDetailsQuery, IRemoveGroupCommand removeGroupCommand, IAddGroupMemberCommand addGroupMemberCommand, IRemoveGroupMemberCommand removeGroupMemberCommand) {
-            _createGroupCommand = createGroupCommand;
-            _getGroupListQuery = getGroupListQuery;
-            _getGroupDetailsQuery = getGroupDetailsQuery;
-            _removeGroupCommand = removeGroupCommand;
-            _addGroupMemberCommand = addGroupMemberCommand;
-            _removeGroupMemberCommand = removeGroupMemberCommand;
-        }
-
         [Authorize]
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromServices] IGetGroupListQuery getGroupListQuery)
         {
             if (ModelState.IsValid)
             {
-                var groups = _getGroupListQuery.Execute();
+                var groups = getGroupListQuery.Execute();
 
                 return Ok(groups);
             }
@@ -54,11 +38,11 @@ namespace GroupBuilder.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(int id, [FromServices] IGetGroupDetailsQuery getGroupDetailsQuery)
         {
             if (ModelState.IsValid)
             {
-                var group = _getGroupDetailsQuery.Execute(id);
+                var group = getGroupDetailsQuery.Execute(id);
                 if (group == null)
                 {
                     return NotFound();
@@ -73,11 +57,11 @@ namespace GroupBuilder.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Post([FromBody] CreateGroupModel newGroup)
+        public IActionResult Post([FromBody] CreateGroupModel newGroup, [FromServices] ICreateGroupCommand createGroupCommand)
         {
             if (ModelState.IsValid)
             {
-                var storedGroup = _createGroupCommand.Execute(newGroup);
+                var storedGroup = createGroupCommand.Execute(newGroup);
                 return Created(Request.Path.Value + "/" + storedGroup.Id, storedGroup);
             }
             else
@@ -88,11 +72,11 @@ namespace GroupBuilder.Controllers
 
         [Authorize]
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int id, [FromServices] IRemoveGroupCommand removeGroupCommand)
         {
             if (ModelState.IsValid)
             {
-                _removeGroupCommand.Execute(id);
+                removeGroupCommand.Execute(id);
                 return Ok();
             }
             else
@@ -103,11 +87,11 @@ namespace GroupBuilder.Controllers
 
         [Authorize]
         [HttpPost("{id}/Members")]
-        public IActionResult AddMember(int id, [FromBody] Member newMember)
+        public IActionResult AddMember(int id, [FromBody] Member newMember, [FromServices] IAddGroupMemberCommand addGroupMemberCommand)
         {
             if (ModelState.IsValid)
             {
-                _addGroupMemberCommand.Execute(id, newMember);
+                addGroupMemberCommand.Execute(id, newMember);
                 return Ok();
             }
             else
@@ -118,11 +102,11 @@ namespace GroupBuilder.Controllers
 
         [Authorize]
         [HttpDelete("{id}/Members")]
-        public IActionResult RemoveMember(int id, [FromBody] Member member)
+        public IActionResult RemoveMember(int id, [FromBody] Member member, [FromServices] IRemoveGroupMemberCommand removeGroupMemberCommand)
         {
             if (ModelState.IsValid)
             {
-                _removeGroupMemberCommand.Execute(id, member);
+                removeGroupMemberCommand.Execute(id, member);
                 return Ok();
             }
             else

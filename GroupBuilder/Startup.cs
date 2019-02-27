@@ -32,7 +32,7 @@ using GroupBuilderApplication.Commands.RemoveGroup;
 using GroupBuilderApplication.Commands.AddGroupMember;
 using GroupBuilderApplication.Commands.RemoveGroupMember;
 using GroupBuilderApplication.Commands.LoginUser;
-using GroupBuilder.Controllers.Shared;
+using GroupBuilder.Controllers.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
