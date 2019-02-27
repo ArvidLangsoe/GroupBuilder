@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
 using System.Text;
 using System.Security.Claims;
-using GroupBuilder.Controllers.Shared;
+using GroupBuilder.Controllers.Utility;
 using Microsoft.AspNetCore.Authorization;
 
 namespace GroupBuilder.Controllers
@@ -23,23 +23,10 @@ namespace GroupBuilder.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IGetUserListQuery _listQuery;
-        private ICreateUserCommand _createUserCommand;
-        private IGetSingleUserQuery _getSingleUserQuery;
-        private IRemoveUserCommand _removeUserCommand;
         private readonly Authentication _authentication;
 
-        public UserController(
-            IGetUserListQuery listQuery, 
-            ICreateUserCommand createUserCommand,
-            IGetSingleUserQuery singleUserQuery,
-            IRemoveUserCommand removeUserCommand,
-            IOptions<Authentication> appSettings)
+        public UserController(IOptions<Authentication> appSettings)
         {
-            _listQuery = listQuery;
-            _createUserCommand = createUserCommand;
-            _getSingleUserQuery = singleUserQuery;
-            _removeUserCommand = removeUserCommand;
             _authentication = appSettings.Value;
         }
 
@@ -47,27 +34,27 @@ namespace GroupBuilder.Controllers
         // GET: api/User
         [Authorize]
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromServices] IGetUserListQuery listQuery)
         {
             if (ModelState.IsValid)
             {
-                return Ok(_listQuery.Execute());
+                return Ok(listQuery.Execute());
             }
             else
             {
                 return BadRequest("Error");
             }
-          
+
         }
 
         // GET: api/User/5
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(int id, [FromServices] IGetSingleUserQuery getSingleUserQuery)
         {
             if (ModelState.IsValid)
             {
-                return Ok(_getSingleUserQuery.Execute(id));
+                return Ok(getSingleUserQuery.Execute(id));
             }
             else {
                 return BadRequest("Error");
@@ -97,7 +84,7 @@ namespace GroupBuilder.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            
+
             // return basic user info (without password) and token to store client side
             return Ok(new
             {
@@ -110,11 +97,11 @@ namespace GroupBuilder.Controllers
 
         // POST: api/User
         [HttpPost]
-        public IActionResult Register([FromBody] CreateUserModel user)
+        public IActionResult Register([FromBody] CreateUserModel user, [FromServices] ICreateUserCommand createUserCommand)
         {
             if (ModelState.IsValid)
             {
-                var storedUser = _createUserCommand.Execute(user);
+                var storedUser = createUserCommand.Execute(user);
                 return Created(Request.Path.Value + "/" + storedUser.Id, storedUser);
             }
             else
@@ -127,11 +114,11 @@ namespace GroupBuilder.Controllers
         // DELETE: api/ApiWithActions/5
         [Authorize]
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int id, [FromServices] IRemoveUserCommand removeUserCommand)
         {
             if (ModelState.IsValid)
             {
-                _removeUserCommand.Execute(id);
+                removeUserCommand.Execute(id);
                 return Ok();
             }
             else {

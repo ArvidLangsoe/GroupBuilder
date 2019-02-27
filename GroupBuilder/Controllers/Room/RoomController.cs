@@ -20,30 +20,15 @@ namespace GroupBuilder.Controllers.Room
     [ApiController]
     public class RoomController : ControllerBase
     {
-        private ICreateRoomCommand _createRoomCommand;
-        private IGetRoomListQuery _getRoomListQuery;
-        private readonly IGetRoomDetailsQuery _getRoomDetailsQuery;
-        private readonly IRemoveRoomCommand _removeRoomCommand;
-        private readonly IAddParticipantCommand _addParticipantCommand;
-        private readonly IRemoveParticipantCommand _removeParticipantCommand;
 
-        public RoomController(ICreateRoomCommand createRoomCommand, IRemoveRoomCommand removeRoomCommand, IGetRoomListQuery getRoomListQuery, IGetRoomDetailsQuery getRoomDetailsQuery, IAddParticipantCommand addParticipantCommand, IRemoveParticipantCommand removeParticipantCommand)
-        {
-            _createRoomCommand = createRoomCommand;
-            _getRoomListQuery = getRoomListQuery;
-            _getRoomDetailsQuery = getRoomDetailsQuery;
-            _removeRoomCommand = removeRoomCommand;
-            _addParticipantCommand = addParticipantCommand;
-            _removeParticipantCommand = removeParticipantCommand;
-        }
 
         // GET: api/Room
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromServices] IGetRoomListQuery getRoomListQuery)
         {
             if (ModelState.IsValid)
             {
-                var rooms = _getRoomListQuery.Execute();
+                var rooms = getRoomListQuery.Execute();
 
                 return Ok(rooms);
             }
@@ -56,11 +41,11 @@ namespace GroupBuilder.Controllers.Room
         // GET: api/Room/5
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(int id, [FromServices] IGetRoomDetailsQuery getRoomDetailsQuery)
         {
             if (ModelState.IsValid)
             {
-                var room = _getRoomDetailsQuery.Execute(id);
+                var room = getRoomDetailsQuery.Execute(id);
                 if (room == null)
                 {
                     return NotFound();
@@ -77,11 +62,11 @@ namespace GroupBuilder.Controllers.Room
 
         [Authorize]
         [HttpPost]
-        public IActionResult Post([FromBody] CreateRoomModel newRoom)
+        public IActionResult Post([FromBody] CreateRoomModel newRoom, [FromServices] ICreateRoomCommand createRoomCommand)
         {
             if (ModelState.IsValid)
             {
-                var storedRoom = _createRoomCommand.Execute(newRoom);
+                var storedRoom = createRoomCommand.Execute(newRoom);
                 return Created(Request.Path.Value + "/" + storedRoom.Id, storedRoom);
             }
             else
@@ -93,11 +78,11 @@ namespace GroupBuilder.Controllers.Room
         // DELETE: api/ApiWithActions/5
         [Authorize]
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int id, [FromServices] IRemoveRoomCommand removeRoomCommand)
         {
             if (ModelState.IsValid)
             {
-                _removeRoomCommand.Execute(id);
+                removeRoomCommand.Execute(id);
                 return Ok();
             }
             else
@@ -108,11 +93,11 @@ namespace GroupBuilder.Controllers.Room
 
         [Authorize]
         [HttpPost("{id}/Participants")]
-        public IActionResult AddParticipant(int id, [FromBody] Participant participant)
+        public IActionResult AddParticipant(int id, [FromBody] Participant participant, [FromServices] AddParticipantCommand addParticipantCommand)
         {
             if (ModelState.IsValid)
             {
-                _addParticipantCommand.Execute(participant, id);
+                addParticipantCommand.Execute(participant, id);
                 return Ok();
             }
             else
@@ -123,11 +108,11 @@ namespace GroupBuilder.Controllers.Room
 
         [Authorize]
         [HttpDelete("{id}/Participants")]
-        public IActionResult RemoveParticipant(int id, [FromBody] Participant participant)
+        public IActionResult RemoveParticipant(int id, [FromBody] Participant participant, [FromServices] IRemoveParticipantCommand removeParticipantCommand)
         {
             if (ModelState.IsValid)
             {
-                _removeParticipantCommand.Execute(participant, id);
+                removeParticipantCommand.Execute(participant, id);
                 return Ok();
             }
             else
