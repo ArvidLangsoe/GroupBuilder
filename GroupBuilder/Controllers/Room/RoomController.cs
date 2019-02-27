@@ -96,7 +96,7 @@ namespace GroupBuilder.Controllers.Room
 
         [Authorize]
         [HttpPost("{id}/Participants")]
-        public IActionResult AddParticipant(int id, [FromBody] Participant participant, [FromServices] AddParticipantCommand addParticipantCommand)
+        public IActionResult AddParticipant(int id, [FromBody] Participant participant, [FromServices] IAddParticipantCommand addParticipantCommand)
         {
             if (ModelState.IsValid)
             {
