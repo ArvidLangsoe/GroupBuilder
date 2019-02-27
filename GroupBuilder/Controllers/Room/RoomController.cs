@@ -13,6 +13,8 @@ using GroupBuilderApplication.Commands.AddParticipant;
 using GroupBuilderApplication.Shared;
 using GroupBuilderApplication.Commands.RemoveParticipant;
 using Microsoft.AspNetCore.Authorization;
+using GroupBuilderApplication.Commands.RandomizeGroups;
+using GroupBuilderApplication.Commands.RandomizeRoom;
 
 namespace GroupBuilder.Controllers.Room
 {
@@ -120,5 +122,21 @@ namespace GroupBuilder.Controllers.Room
                 return BadRequest("Error");
             }
         }
+
+
+        [Authorize]
+        [HttpPost("{roomId}/Randomizer")]
+        public IActionResult RandomizeGroups(int roomId, [FromBody] RandomizerModel randomizerModel, [FromServices] IRandomizeRoomCommand randomiseRoomCommand) {
+            if (ModelState.IsValid)
+            {
+                List<GroupSimpleModel> groups = randomiseRoomCommand.Execute(roomId, randomizerModel);
+                return Ok(groups);
+            }
+            else
+            {
+                return BadRequest("Error");
+            }
+        }
+
     }
 }

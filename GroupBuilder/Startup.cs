@@ -36,6 +36,8 @@ using GroupBuilder.Controllers.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using GroupBuilderApplication.Commands.RandomizeRoom;
+using GroupBuilderApplication.Factory.GroupRandomizer;
 
 namespace GroupBuilder
 {
@@ -75,6 +77,9 @@ namespace GroupBuilder
 
             services.AddScoped<IGetRoomListQuery, GetRoomListQuery>();
             services.AddScoped<IGetRoomDetailsQuery, GetRoomDetailsQuery>();
+
+            services.AddScoped<IRandomizeRoomCommand, RandomizeRoomCommand>();
+            services.AddScoped<IGroupRandomizerFactory, GroupRandomizerFactory>();
 
             //Group
             services.AddScoped<IGroupRepository, GroupRepository>();
