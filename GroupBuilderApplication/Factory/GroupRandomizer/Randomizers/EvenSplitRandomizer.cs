@@ -22,18 +22,18 @@ namespace GroupBuilderApplication.Factory.GroupRandomizer.Randomizers
             CheckMaximumRequirements(users);
 
             int idealGroupSize = -1;
-            double idealRemainderPercentage = 0;
+            double idealRemainderPercentage = 1;
 
             for(int i = MaximumGroupSize; i>MinimumGroupSize; i--)
             {
                 var remainder = users.Count % i;
-                var percent = ((double)remainder) / MaximumGroupSize;
+                var percent = ((double)remainder) / i;
 
-                if (remainder < MinimumGroupSize) {
+                if (remainder>0&&remainder < MinimumGroupSize) {
                     continue;
                 }
 
-                if (idealRemainderPercentage < percent) {
+                if (idealRemainderPercentage > percent) {
                     idealGroupSize = i;
                     idealRemainderPercentage = percent;
                 }
@@ -53,14 +53,15 @@ namespace GroupBuilderApplication.Factory.GroupRandomizer.Randomizers
                 Group currentGroup = new Group();
                 for (int i = 0; i<idealGroupSize; i++) {
                     var user = randomizedList.LastOrDefault();
-                    if (users == null) {
+                    if (user == null) {
                         break;
                     }
-                    users.Remove(user);
+                    randomizedList.Remove(user);
 
                     currentGroup.Members.Add(
                         new GroupMember {
-                            User = user
+                            User = user,
+                            UserId = user.Id
                     });
                 }
                 groups.Add(currentGroup);

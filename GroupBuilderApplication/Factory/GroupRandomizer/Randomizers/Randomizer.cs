@@ -30,7 +30,7 @@ namespace GroupBuilderApplication.Factory.GroupRandomizer.Randomizers
 
         protected void CheckMaximumRequirements(List<User> users)
         {
-            if (MaximumNumberOfGroups * MaximumGroupSize < users.Count)
+            if (MaximumNumberOfGroups < users.Count/MaximumGroupSize +1)
             {
                 throw new ArgumentException("There are to many users to match the maximum requirements.");
             }
