@@ -1,4 +1,5 @@
 ﻿using GroupBuilderApplication.Commands.RandomizeGroups;
+using GroupBuilderApplication.Queries.GetGroupDetails;
 using GroupBuilderApplication.Shared;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,6 @@ namespace GroupBuilderApplication.Commands.RandomizeRoom
 {
     public interface IRandomizeRoomCommand
     {
-        List<GroupSimpleModel> Execute(int roomId, RandomizerModel randomizerModel);
+        List<GroupDetailModel> Execute(int roomId, RandomizerModel randomizerModel);
     }
 }

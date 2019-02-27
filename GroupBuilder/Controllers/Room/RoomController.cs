@@ -15,6 +15,7 @@ using GroupBuilderApplication.Commands.RemoveParticipant;
 using Microsoft.AspNetCore.Authorization;
 using GroupBuilderApplication.Commands.RandomizeGroups;
 using GroupBuilderApplication.Commands.RandomizeRoom;
+using GroupBuilderApplication.Queries.GetGroupDetails;
 
 namespace GroupBuilder.Controllers.Room
 {
@@ -129,7 +130,7 @@ namespace GroupBuilder.Controllers.Room
         public IActionResult RandomizeGroups(int roomId, [FromBody] RandomizerModel randomizerModel, [FromServices] IRandomizeRoomCommand randomiseRoomCommand) {
             if (ModelState.IsValid)
             {
-                List<GroupSimpleModel> groups = randomiseRoomCommand.Execute(roomId, randomizerModel);
+                List<GroupDetailModel> groups = randomiseRoomCommand.Execute(roomId, randomizerModel);
                 return Ok(groups);
             }
             else
