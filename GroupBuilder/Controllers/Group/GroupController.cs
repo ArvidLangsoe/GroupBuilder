@@ -9,6 +9,7 @@ using GroupBuilderApplication.Commands.RemoveGroupMember;
 using GroupBuilderApplication.Queries;
 using GroupBuilderApplication.Queries.GetGroupDetails;
 using GroupBuilderApplication.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +36,7 @@ namespace GroupBuilder.Controllers
             _removeGroupMemberCommand = removeGroupMemberCommand;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Get()
         {
@@ -50,6 +52,7 @@ namespace GroupBuilder.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -68,7 +71,7 @@ namespace GroupBuilder.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpPost]
         public IActionResult Post([FromBody] CreateGroupModel newGroup)
         {
@@ -83,6 +86,7 @@ namespace GroupBuilder.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -97,6 +101,7 @@ namespace GroupBuilder.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("{id}/Members")]
         public IActionResult AddMember(int id, [FromBody] Member newMember)
         {
@@ -111,6 +116,7 @@ namespace GroupBuilder.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}/Members")]
         public IActionResult RemoveMember(int id, [FromBody] Member member)
         {
