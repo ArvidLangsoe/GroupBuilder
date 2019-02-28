@@ -20,7 +20,7 @@ namespace GroupBuilderPersistence
 
         public new Room Get(int id)
         {
-            return _database.Rooms.Include(r => r.Participants).ThenInclude(rp => rp.User).Include(r => r.Groups)
+            return _database.Rooms.Include(r => r.Groups).ThenInclude(g=> g.Members).Include(r => r.Participants).ThenInclude(rp => rp.User)
                 .SingleOrDefault(p => p.Id == id);
         }
 

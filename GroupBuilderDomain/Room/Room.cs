@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -6,6 +7,7 @@ using Toolbelt.ComponentModel.DataAnnotations.Schema;
 
 namespace GroupBuilderDomain
 {
+
     public class Room : IEntity
     {
         public Room() {

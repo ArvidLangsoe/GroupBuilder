@@ -12,9 +12,10 @@ using GroupBuilderDomain;
 
 namespace GroupBuilderApplication.Commands.RandomizeRoom
 {
+
     public class RandomizeRoomCommand : IRandomizeRoomCommand
     {
-        private readonly IGroupRepository _groupRepository;
+
         private readonly IUserRepository _userRepository;
         private readonly IRoomRepository _roomRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -26,14 +27,12 @@ namespace GroupBuilderApplication.Commands.RandomizeRoom
             IUnitOfWork unitOfWork, 
             IMapper mapper, 
             IUserRepository userRepository, 
-            IGroupRepository groupRepository,
             IGroupRandomizerFactory randomizerFactory)
         {
             _roomRepository = roomRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _userRepository = userRepository;
-            _groupRepository = groupRepository;
             _randomizerFactory = randomizerFactory;
         }
 
@@ -41,10 +40,15 @@ namespace GroupBuilderApplication.Commands.RandomizeRoom
         {
             var room = _roomRepository.Get(roomId);
             var randomizer = _randomizerFactory.CreateRandomizer(randomizerModel);
-            //This does not work 
-            var userWithGroups = room.Groups.Select(g => g.Members).Aggregate((l1, l2) => { l1.AddRange(l2);return l1; } ).Select(gm => gm.User);
 
-            var usersWithNoGroup = _userRepository.GetAll().Where(u => !userWithGroups.Contains(u));
+            IEnumerable<User> userWithGroups = new List<User>();
+            if (room.Groups.Count > 0)
+            {
+                userWithGroups = room.Groups.SelectMany(g => g.Members).Select(gm => gm.User);
+
+            }
+
+            var usersWithNoGroup = room.Participants.Select(p => p.User).Where(u => !userWithGroups.Contains(u));
 
             List<Group> newGroups =randomizer.GenerateGroups(usersWithNoGroup.ToList());
 
