@@ -36,6 +36,8 @@ using GroupBuilder.Controllers.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using GroupBuilderApplication.Commands.RandomizeRoom;
+using GroupBuilderApplication.Factory.GroupRandomizer;
 
 namespace GroupBuilder
 {
@@ -76,6 +78,9 @@ namespace GroupBuilder
             services.AddScoped<IGetRoomListQuery, GetRoomListQuery>();
             services.AddScoped<IGetRoomDetailsQuery, GetRoomDetailsQuery>();
 
+            services.AddScoped<IRandomizeRoomCommand, RandomizeRoomCommand>();
+            services.AddScoped<IGroupRandomizerFactory, GroupRandomizerFactory>();
+
             //Group
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<ICreateGroupCommand, CreateGroupCommand>();
@@ -100,6 +105,7 @@ namespace GroupBuilder
 
             //Avoid loops when serializing json
             services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            //services.AddMvc().AddJsonOptions(x => x.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects);
 
         }
 
