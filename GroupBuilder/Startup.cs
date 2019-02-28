@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,6 +38,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GroupBuilderApplication.Commands.RandomizeRoom;
 using GroupBuilderApplication.Factory.GroupRandomizer;
+using Microsoft.AspNetCore.SpaServices.Webpack;
+using System.IO;
 
 namespace GroupBuilder
 {
@@ -115,6 +117,12 @@ namespace GroupBuilder
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true,
+                    ConfigFile = Path.Combine(env.ContentRootPath, @"node_modules\@vue\cli-service\webpack.config.js")
+                });
             }
             else
             {
@@ -122,7 +130,26 @@ namespace GroupBuilder
             }
             app.UseAuthentication();
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            // here you can see we make sure it doesn't start with /api, if it does, it'll 404 within .NET if it can't be found
+            app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api"), builder =>
+            {
+                builder.UseMvc(routes =>
+                {
+                    routes.MapSpaFallbackRoute(
+                        name: "spa-fallback",
+                        defaults: new { controller = "Home", action = "Index" });
+                });
+            });
+
         }
 
 
