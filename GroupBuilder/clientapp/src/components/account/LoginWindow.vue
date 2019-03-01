@@ -5,15 +5,15 @@
                 <div class="login-window">
                     <div class="login-box">
                         <h4>Login</h4>
-                        <form class="login-form">
+                        <form class="login-form" @submit.prevent="login">
                             <div class="form-group">
                                 <label for="inputLoginEmail">Email address</label>
-                                <input type="email" id="inputLoginEmail" placeholder="Email" class="form-control" aria-describedby="emailHelp">
+                                <input required v-model="email" type="email" id="inputLoginEmail" placeholder="Email" class="form-control" aria-describedby="emailHelp">
                                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword">Password</label>
-                                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                <input required v-model="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
                                 <a class="small text-muted" href="/">Forgotten password?</a>
                             </div>
 
@@ -31,7 +31,7 @@
 
 <script>
     import { EventBus } from '../../event-bus.js';
-    
+
 
 export default {
     name: 'LoginForm',
@@ -40,13 +40,22 @@ export default {
     },
     data: function () {
         return {
-            showLogin: this.show
+            showLogin: this.show,
+            email: "",
+            password: ""
         }
     },
     methods:  {
         setVisible: function(){
             this.showLogin=true;
-        }
+        },
+        login: function () {
+            let email = this.email 
+            let password = this.password
+            this.$store.dispatch('login', { email, password })
+                .then(() => {this.$router.push('/'); this.showLogin=false})
+                .catch(err => console.log(err))
+      }
     },
     mounted(){
             EventBus.$on('show-login', () =>{this.showLogin=true;});
