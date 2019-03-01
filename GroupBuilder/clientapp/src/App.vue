@@ -1,12 +1,26 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <div id="nav">
+            <router-link to="/">Home</router-link> |
+            <router-link to="/about">About</router-link>
+        </div>
+        <LoginWindow />
+        <router-view />
     </div>
-    <router-view/>
-  </div>
 </template>
+
+
+<script>
+    import LoginWindow from './components/account/LoginWindow.vue'
+
+    export default{
+        components: {
+            LoginWindow,
+
+        },
+    }
+
+</script>
 
 <style>
 #app {

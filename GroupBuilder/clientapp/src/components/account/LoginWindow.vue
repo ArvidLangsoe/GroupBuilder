@@ -1,5 +1,5 @@
 ﻿<template>
-    <modal v-if="showLogin">
+    <div v-if="showLogin" v-on:show-login="setVisible">
         <div class="login-mask" @click.self="showLogin = false">
             <div class="login-container">
                 <div class="login-window">
@@ -26,16 +26,35 @@
                 </div>
             </div>
         </div>
-        </modal>
+    </div>
 </template>
 
 <script>
-    export default {
-        props: {
-            showLogin: Boolean
-        }
+    import { EventBus } from '../../event-bus.js';
+    
 
-    }</script>
+export default {
+    name: 'LoginForm',
+    props: {
+        show: Boolean
+    },
+    data: function () {
+        return {
+            showLogin: this.show
+        }
+    },
+    methods:  {
+        setVisible: function(){
+            this.showLogin=true;
+        }
+    },
+    mounted(){
+            EventBus.$on('show-login', () =>{this.showLogin=true;});
+    }
+
+}
+
+</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -63,8 +82,8 @@
     .login-window {
         display: flex;
         justify-content: space-around;
-
     }
+
     .login-box {
         border: 2px solid #EEEEEE;
         border-radius: 25px;
@@ -73,6 +92,7 @@
         padding: 10px;
         background: #FAFAFA;
     }
+
     .login-form {
         text-align: left;
     }
@@ -81,10 +101,8 @@
         display: flex;
         justify-content: center;
     }
+
     .login-form-button {
         margin: 5px;
     }
-
-
-
 </style>

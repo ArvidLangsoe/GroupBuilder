@@ -28,23 +28,29 @@
             <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
         </ul>
 
-        <LoginWindow showLogin="true" />
 
+        <button @click="emitLoginEvent()">Open login</button>
 
     </div>
 </template>
 
 
 <script>
-    import LoginWindow from '../components/Login/LoginWindow.vue'
+    import { EventBus } from '../event-bus.js';
     export default {
         name: 'HelloWorld',
         props: {
             msg: String
         },
-        components: {
-            LoginWindow,
-
+        data: function () {
+            return {
+                showLogin: true
+            }
+        },
+        methods: {
+            emitLoginEvent: function(){
+                EventBus.$emit('show-login');
+            }
         }
         
     }
