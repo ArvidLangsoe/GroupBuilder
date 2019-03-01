@@ -28,13 +28,8 @@
             <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
         </ul>
 
-        <button id="show-Login" @click="showLogin = true">Show Login</button>
-        <!-- use the modal component, pass in the prop -->
-        <modal v-if="showLogin" @close="showLogin = false">
-            <div class="login-mask" @click="showLogin = false">
-                <LoginWindow />
-            </div>
-        </modal>
+        <LoginWindow showLogin="true" />
+
 
     </div>
 </template>
@@ -44,11 +39,6 @@
     import LoginWindow from '../components/Login/LoginWindow.vue'
     export default {
         name: 'HelloWorld',
-        data: function () {
-            return {
-                showLogin: false
-            }
-        },
         props: {
             msg: String
         },
@@ -80,14 +70,5 @@
         color: #42b983;
     }
 
-    .login-mask {
-        position: fixed;
-        z-index: 9998;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, .5);
-        transition: opacity .3s ease;
-    }
+
 </style>
