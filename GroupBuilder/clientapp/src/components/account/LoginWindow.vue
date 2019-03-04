@@ -7,7 +7,7 @@
                         <h4>Login</h4>
                         <form class="login-form" @submit.prevent="login">
                             <div class="form-group">
-                                <label for="inputLoginEmail">Email address</label>
+                                <label for="inputLoginEmail">E-Mail Address</label>
                                 <input required v-model="email" type="email" id="inputLoginEmail" placeholder="Email" class="form-control" aria-describedby="emailHelp">
                                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
@@ -19,7 +19,7 @@
 
                             <div class="login-form-buttons">
                                 <button type="submit" class="btn btn-primary login-form-button">Login</button>
-                                <button class="btn btn-secondary login-form-button">Create Account</button>
+                                <button class="btn btn-secondary login-form-button" v-on:click.prevent="register">Create Account</button>
                             </div>
                         </form>
                     </div>
@@ -31,7 +31,7 @@
 
 <script>
     import { EventBus } from '../../event-bus.js';
-
+    import store from '../../store/store.js'
 
 export default {
     name: 'LoginForm',
@@ -55,10 +55,18 @@ export default {
             this.$store.dispatch('login', { email, password })
                 .then(() => {this.$router.push('/'); this.showLogin=false})
                 .catch(err => console.log(err))
-      }
+        },
+        register: function () {
+            this.showLogin = false;
+            this.$router.push('/register');
+        }
     },
     mounted(){
-            EventBus.$on('show-login', () =>{this.showLogin=true;});
+        EventBus.$on('show-login', () => {
+            if (!store.getters.isLoggedIn) {
+                this.showLogin = true;
+            }
+        });
     }
 
 }
