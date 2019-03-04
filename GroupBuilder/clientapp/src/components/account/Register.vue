@@ -52,7 +52,10 @@
                     password: this.password,
                 }
                 this.$store.dispatch('register', data)
-                    .then(() => this.$router.push('/'))
+                    .then(() => {
+                        this.$router.push('/');
+                        this.$store.dispatch('login', data)
+                    })
                     .catch(err => console.log(err))
             }
         }
