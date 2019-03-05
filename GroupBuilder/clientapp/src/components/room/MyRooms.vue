@@ -33,7 +33,7 @@
     export default {
         data: function () {
             return {
-                errorMessage: ""
+                errorMessage: "loading"
             }
         },
         computed: {
@@ -47,7 +47,7 @@
                     return true;
                 }
 
-                this.erroMessage = "";
+                this.errorMessage = "";
                 return false;
             },
             userRooms: function () {

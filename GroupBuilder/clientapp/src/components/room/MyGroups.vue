@@ -34,7 +34,7 @@
     export default {
         data: function () {
             return {
-                errorMessage: ""
+                errorMessage: "loading"
             }
         },
         computed: {
@@ -51,7 +51,7 @@
                 }
 
 
-                this.erroMessage = "";
+                this.errorMessage = "";
                 return false;
 
             },
