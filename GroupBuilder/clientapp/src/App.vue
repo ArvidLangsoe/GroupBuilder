@@ -9,7 +9,7 @@
                 <router-link to="/about">About</router-link>
             </div>
             <div>
-                <span v-if="!isLoggedIn"> <a id="nav-btn-pull-right" @click="login">Login</a></span>
+                <span v-if="!isLoggedIn"> <a id="nav-btn-pull-right" class="nav-btn-important" @click="login">Login</a></span>
                 <span v-if="isLoggedIn"> <a id="nav-btn-pull-right" @click="logout">Logout</a></span>
             </div>
         </div>
@@ -118,6 +118,11 @@
             color: white;
             cursor: pointer;
         }
+
+    .nav-btn-important {
+        background: var(--primary-light-blue);
+    }
+
 
     .background-box {
         text-align: left;
