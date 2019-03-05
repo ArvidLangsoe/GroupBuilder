@@ -47,7 +47,7 @@
         flex-direction: row;
         justify-content: center;
         background: var(--main-dark-blue);
-        box-shadow: 0px 10px 5px 5px var(--main-dark-blue);
+        box-shadow: 0px 10px 2px 10px var(--main-dark-blue);
     }
 
     .home-info {

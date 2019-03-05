@@ -57,6 +57,7 @@
                     .then(() => {
                         this.$router.push('/');
                         this.$store.dispatch('login', data)
+                            .then(() => this.$store.dispatch('refreshCurrentUser'))
                     })
                     .catch(err => console.log(err))
             }
