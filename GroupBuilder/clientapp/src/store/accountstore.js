@@ -21,7 +21,6 @@ export default {
             state.status = 'success'
             state.token = token
             state.user = user
-            console.log(state)
         },
         auth_error(state) {
             state.status = 'error'

@@ -9,7 +9,8 @@
                 <router-link to="/about">About</router-link>
             </div>
             <div>
-                <span v-if="isLoggedIn"> <a id="logout-btn" @click="logout">Logout</a></span>
+                <span v-if="!isLoggedIn"> <a id="nav-btn-pull-right" @click="login">Login</a></span>
+                <span v-if="isLoggedIn"> <a id="nav-btn-pull-right" @click="logout">Logout</a></span>
             </div>
         </div>
         <div id="content">
@@ -22,13 +23,14 @@
 
 <script>
     import LoginWindow from './components/account/LoginWindow.vue'
+    import { EventBus } from './event-bus.js';
 
     export default {
         created: function () {
             this.$http.interceptors.response.use(undefined, function (err) {
                 return new Promise(function (resolve, reject) {
                     if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-                        this.$store.dispatch(logout)
+                        this.$store.dispatch('logout')
                     }
                     throw err;
                 });
@@ -47,6 +49,9 @@
                     .then(() => {
                         this.$router.push('/')
                     })
+            },
+            login: function () {
+                EventBus.$emit('show-login');
             }
         }
     }
@@ -54,16 +59,25 @@
 </script>
 
 <style>
+    :root {
+        --main-dark-blue: #00245e;
+        --secondary-dark-blue: #0c1421;
+        --primary-light-blue: #2164d1;
+        --secondary-light-blue: #a5c7ff;
+        --primary-box-background: #f2f5ff;
+    }
+
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
-        color: #2c3e50;
+        color: #000000;
+
     }
 
     .nav {
-        background-color: #333;
+        background-color: var(--secondary-dark-blue);
         overflow: hidden;
         display: flex;
         justify-content: space-between;
@@ -79,17 +93,17 @@
         }
 
             .nav a.router-link-exact-active {
-                background-color: #4CAF50;
+                background-color: var(--primary-light-blue);
                 color: white;
             }
 
-            .nav a.router-link-active:hover,
-            .nav a.router-link-active:focus {
-                background-color: #4CAF50;
+            .nav a:hover {
+                background-color: var(--primary-light-blue);
                 color: white;
+                text-decoration: none;
             }
 
-    #logout-btn {
+    #nav-btn-pull-right {
         float: left;
         color: #f2f2f2;
         text-align: center;
@@ -99,12 +113,18 @@
     }
 
 
-        #logout-btn:hover,
-        #logout-btn:focus {
-            background-color: #4CAF50;
+        #nav-btn-pull-right:hover {
+            background-color: var(--primary-light-blue);
             color: white;
             cursor: pointer;
         }
-        
+
+    .background-box {
+        text-align: left;
+        background: var( --primary-box-background);
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+    }
 
 </style>

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import store from './store/store.js'
 import Home from './views/Home.vue'
 import About from './views/About.vue'
-import Register from './components/account/Register.vue'
+import Register from './views/Register.vue'
 
 Vue.use(Router)
 
