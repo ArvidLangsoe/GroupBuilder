@@ -76,6 +76,7 @@
 
     }
 
+
     .nav {
         background-color: var(--secondary-dark-blue);
         overflow: hidden;
@@ -132,11 +133,12 @@
         margin: 10px;
         padding: 10px;
         border-radius: 5px;
+        min-width: 500px;
     }
 
     #content{
         padding-top: 51px;
-        
     }
+
 
 </style>

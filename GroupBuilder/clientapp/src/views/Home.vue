@@ -18,7 +18,6 @@
 </template>
 
 <script>
-    import HelloWorld from '../components/HelloWorld.vue';
     import JoinRoom from '../components/room/Joinroom.vue';
     import MyRooms from '../components/room/MyRooms.vue';
     import MyGroups from '../components/room/MyGroups.vue';
@@ -26,10 +25,12 @@
     export default {
         name: 'home',
         components: {
-            HelloWorld,
             JoinRoom,
             MyRooms,
             MyGroups
+        },
+        created() {
+            this.$store.dispatch('refreshCurrentUser');
         }
     }
 </script>
@@ -51,10 +52,12 @@
 
     .home-info {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
+        flex-wrap: wrap;
     }
     .my-rooms {
         min-width: 50%
+        
     }
     .my-groups {
         min-width: 50%
