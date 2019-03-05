@@ -81,6 +81,8 @@
         overflow: hidden;
         display: flex;
         justify-content: space-between;
+        position: fixed;
+        width: 100%;
     }
 
         .nav a {
@@ -130,6 +132,11 @@
         margin: 10px;
         padding: 10px;
         border-radius: 5px;
+    }
+
+    #content{
+        padding-top: 51px;
+        
     }
 
 </style>
