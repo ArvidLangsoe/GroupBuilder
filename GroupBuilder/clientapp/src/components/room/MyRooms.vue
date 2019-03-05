@@ -78,17 +78,10 @@
         color: #333;
     }
 
-    .list-group-item-action:hover {
-        background: var(--secondary-light-blue)
-    }
-
-
-    .list-group-item {
-        background: var(--primary-box-background);
-        cursor: pointer;
-    }
-
     .room-container {
         display: flex;
+       
     }
+
+
 </style>

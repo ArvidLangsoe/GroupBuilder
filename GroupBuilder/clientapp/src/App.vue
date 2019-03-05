@@ -133,11 +133,21 @@
         margin: 10px;
         padding: 10px;
         border-radius: 5px;
-        min-width: 500px;
+        min-width: 350px;
     }
 
     #content{
         padding-top: 51px;
+    }
+
+    li.list-group-item {
+        background: var(--primary-box-background);
+        cursor: pointer;
+        color: #111;
+    }
+    li.list-group-item-action:hover {
+        background: var(--secondary-light-blue);
+        color: #000;
     }
 
 
