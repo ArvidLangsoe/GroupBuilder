@@ -83,7 +83,7 @@
     .room-grid {
         text-align: left;
         display: grid;
-        grid-template-columns: 250px auto 200px;
+        grid-template-columns: 300px auto 200px;
         grid-template-rows: 100px auto;
         grid-template-areas: "members header admin" "members groups admin";
     }
