@@ -146,11 +146,13 @@
 
     .scrollable-members {
         overflow-y: auto;
+        min-height: 100px;
         max-height: calc(100vh - 135px);
     }
 
     .scrollable-groups {
         overflow-y: auto;
+        min-height: 100px;
         max-height: calc(100vh - 215px);
     }
 </style>
