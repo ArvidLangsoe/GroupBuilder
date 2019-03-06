@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="background-box">
+    <div class="background-box background-box-standard">
         <h5>My Groups</h5>
         <hr />
 

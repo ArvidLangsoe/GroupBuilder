@@ -20,7 +20,7 @@
 <script>
     import JoinRoom from '../components/room/Joinroom.vue';
     import MyRooms from '../components/room/MyRooms.vue';
-    import MyGroups from '../components/room/MyGroups.vue';
+    import MyGroups from '../components/group/MyGroups.vue';
 
     export default {
         name: 'home',
