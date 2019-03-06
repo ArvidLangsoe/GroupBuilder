@@ -89,13 +89,14 @@
         width: 200px;
         height: 100%;
     }
+
     /*Mobile changes*/
     @media only screen and (max-width: 1000px) {
         .room-grid {
             text-align: left;
             display: grid;
             grid-template-columns: 200px auto;
-            grid-template-rows: 200px auto;
+            grid-template-rows: 100px auto;
             grid-template-areas: "members header" "members groups";
         }
         .admin-panel {
