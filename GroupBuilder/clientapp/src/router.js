@@ -22,8 +22,8 @@ let router = new Router({
             component: Register
         },
         {
-            path: '/room',
-            name: 'rome',
+            path: '/room/:id',
+            name: 'room',
             component: Room,
             meta: {
                 requiresAuth: true

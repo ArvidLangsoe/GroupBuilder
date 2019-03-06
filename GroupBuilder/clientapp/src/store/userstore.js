@@ -19,7 +19,6 @@ export default {
         refreshCurrentUser({ commit }) {
                 axios({ url: ('/api/user/' + this.getters.jwtUserId), method: 'GET' })
                     .then(response => {
-                        console.log(response);
                         commit('set', response.data);
                     }).catch(err => {
                         console.log(err);

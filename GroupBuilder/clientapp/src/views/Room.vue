@@ -7,38 +7,35 @@
         </div>
 
         <div class="room-members background-box">
-            <h3>Members</h3>
-            <ul>
-                <li>Member1</li>
-                <li>Member2</li>
-                <li>Member3</li>
-                <li>Member4</li>
-            </ul>
+            <h3>Members</h3> 
+            <div class="scrollable-members">
+                <ul v-for="participant in roomMembers" class="list-group list-group-flush">
+                    <li class="list-group-item">{{participant.user.email}}</li>
+                </ul>
+            </div>
 
         </div>
 
         <div class="group-overview">
-            <h3>My Groups</h3>
-            <div class="group-container">
-                <div class="group my-group background-box">
-                    <p>My group</p>
-                    <p>My group</p>
-                    <p>My group</p>
-                    <p>My group</p>
-                    <p>My group</p>
-                    <p>My group</p>
+            <h4>Groups: </h4>
+            <small>Blue boxes represent the groups you are a member of.</small>
+            <div class="group-container scrollable-groups">
+
+                <div v-for="groupItem in roomGroups" class="group-container">
+                    <div class="group my-group background-box">
+                        <h5> Group Id:</h5>
+                        {{groupItem.id}}
+                    </div>
                 </div>
-                <div class="group my-group background-box">
-                    Another group of mine
+                <div v-for="groupItem in roomGroups">
+                    <div class="group background-box">
+                        <h5> Group Id:</h5>
+                        {{groupItem.id}}
+                    </div>
                 </div>
+
             </div>
 
-            <h3>Other Groups</h3>
-            <div class="group-container">
-                <div class="group background-box">
-                    Other groups
-                </div>
-            </div>
         </div>
 
         <div class="admin-panel">
@@ -53,15 +50,42 @@
 
 <script>
 
+    export default {
+        watch: {
+            //Needs to be update to switch to the correct room.
+            '$route'(to, from) {
+                console.log("route changed from: ");
+                console.log(from);
+                console.log("route changed to: ");
+                console.log(to);
+            }
+        },
+        created(){
+            console.log("Room created.");
+            this.$store.dispatch('refreshCurrentRoom', this.$route.params.id);
+        },
+        computed: {
+            currentRoom: function () {
+                return this.$store.getters.currentRoom;
+            },
+            roomGroups: function() {
+                return this.$store.getters.currentRoom.groups;
+            },
+            roomMembers: function () {
+                return this.$store.getters.currentRoom.participants;
+            }
+        }
+    }
 
 </script>
 
 <style scoped>
+
     .room-grid {
         text-align: left;
         display: grid;
-        grid-template-columns: 200px auto 200px;
-        grid-template-rows: 100px auto 200px;
+        grid-template-columns: 250px auto 200px;
+        grid-template-rows: 100px auto;
         grid-template-areas: "members header admin" "members groups admin";
     }
 
@@ -119,5 +143,15 @@
         min-width: 200px;
         border: solid 2px;
         border-color: var(--secondary-light-blue);
+    }
+
+    .scrollable-members {
+        overflow-y: auto;
+        max-height: 82vh;
+    }
+
+    .scrollable-groups {
+        overflow-y: auto;
+        max-height: 60vh;
     }
 </style>
