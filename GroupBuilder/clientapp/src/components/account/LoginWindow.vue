@@ -53,7 +53,7 @@ export default {
             let email = this.email 
             let password = this.password
             this.$store.dispatch('login', { email, password })
-                .then(() => {this.$router.push('/'); this.showLogin=false})
+                .then(() => { this.$store.dispatch('refreshCurrentUser');this.$router.push('/'); this.showLogin=false})
                 .catch(err => console.log(err))
         },
         register: function () {

@@ -1,18 +1,67 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to my Vue.js App"/>
-  </div>
+    <div class="home">
+
+        <div class="home-join">
+
+            <JoinRoom />
+        </div>
+        <div class="home-info">
+            <div class="my-rooms">
+                <MyRooms />
+            </div>
+            <div class="my-groups">
+                <MyGroups />
+            </div>
+
+        </div>
+    </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '../components/HelloWorld.vue'
+    import JoinRoom from '../components/room/Joinroom.vue';
+    import MyRooms from '../components/room/MyRooms.vue';
+    import MyGroups from '../components/group/MyGroups.vue';
 
-export default {
-  name: 'home',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        name: 'home',
+        components: {
+            JoinRoom,
+            MyRooms,
+            MyGroups
+        },
+        created() {
+            this.$store.dispatch('refreshCurrentUser');
+        }
+    }
 </script>
+
+<style scoped>
+    .home {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .home-join {
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        background: var(--main-dark-blue);
+        box-shadow: 0px 10px 2px 10px var(--main-dark-blue);
+    }
+
+    .home-info {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+    .my-rooms {
+        min-width: 50%
+        
+    }
+    .my-groups {
+        min-width: 50%
+    }
+
+
+</style>

@@ -12,6 +12,10 @@ export default {
     getters: {
         isLoggedIn: state => !!state.token,
         authStatus: state => state.status,
+        jwtData: (state) => state.token ? JSON.parse(atob(state.token.split('.')[1])) : null,
+        jwtUserId: ( state,getters) => getters.jwtData ? getters.jwtData.unique_name : null
+
+
     },
     mutations: {
         auth_request(state) {
@@ -21,7 +25,6 @@ export default {
             state.status = 'success'
             state.token = token
             state.user = user
-            console.log(state)
         },
         auth_error(state) {
             state.status = 'error'
@@ -40,7 +43,7 @@ export default {
                         const token = resp.data.token
                         const user = resp.data.user
                         localStorage.setItem('token', token)
-                        axios.defaults.headers.common['Authorization'] = token
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' +token
                         commit('auth_success', token, user)
                         resolve(resp)
                     })
@@ -59,7 +62,7 @@ export default {
                         const token = resp.data.token
                         const user = resp.data.user
                         localStorage.setItem('token', token)
-                        axios.defaults.headers.common['Authorization'] = token
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' +token
                         commit('auth_success', token, user)
                         resolve(resp)
                     })
@@ -71,7 +74,7 @@ export default {
             })
         },
         logout({ commit }) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 commit('logout')
                 localStorage.removeItem('token')
                 delete axios.defaults.headers.common['Authorization']

@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import store from './store/store.js'
 import Home from './views/Home.vue'
 import About from './views/About.vue'
-import Register from './components/account/Register.vue'
+import Register from './views/Register.vue'
+import Room from './views/Room.vue'
 
 Vue.use(Router)
 
@@ -20,6 +21,15 @@ let router = new Router({
             name: 'register',
             component: Register
         },
+        {
+            path: '/room',
+            name: 'rome',
+            component: Room,
+            meta: {
+                requiresAuth: true
+            }
+        },
+
         {
             path: '/about',
             name: 'about',

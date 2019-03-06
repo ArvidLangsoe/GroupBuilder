@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 
 import AccountStore from './accountstore';
+import UserStore from './userstore';
 
 export default new Vuex.Store({
     mutations: {
@@ -15,5 +16,6 @@ export default new Vuex.Store({
     },
     modules: {
         account: AccountStore,
+        user: UserStore
     }
 })
