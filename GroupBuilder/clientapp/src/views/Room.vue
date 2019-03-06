@@ -18,19 +18,18 @@
 
         <div class="group-overview">
             <h4>Groups: </h4>
-            <small>Blue boxes represent the groups you are a member of.</small>
             <div class="group-container scrollable-groups">
 
                 <div v-for="groupItem in roomGroups" class="group-container">
                     <div class="group my-group background-box">
-                        <h5> Group Id:</h5>
-                        {{groupItem.id}}
+                        <h5> Group Id: {{groupItem.id}}</h5>
+                        
                     </div>
                 </div>
                 <div v-for="groupItem in roomGroups">
                     <div class="group background-box">
-                        <h5> Group Id:</h5>
-                        {{groupItem.id}}
+                        <h5> Group Id: {{groupItem.id}}</h5>
+                        
                     </div>
                 </div>
 
@@ -147,11 +146,11 @@
 
     .scrollable-members {
         overflow-y: auto;
-        max-height: 82vh;
+        max-height: calc(100vh - 135px);
     }
 
     .scrollable-groups {
         overflow-y: auto;
-        max-height: 60vh;
+        max-height: calc(100vh - 215px);
     }
 </style>

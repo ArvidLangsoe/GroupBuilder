@@ -5,8 +5,6 @@
                 <router-link to="/">Home</router-link>
                 <router-link to="/about">About</router-link>
 
-                <router-link to="/about">About</router-link>
-                <router-link to="/about">About</router-link>
             </div>
             <div>
                 <span v-if="!isLoggedIn"> <a id="nav-btn-pull-right" class="nav-btn-important" @click="login">Login</a></span>
