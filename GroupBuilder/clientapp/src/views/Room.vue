@@ -24,17 +24,16 @@
 
         <div class="group-overview">
             <h4>Groups: </h4>
-            <div class="group-container scrollable-groups">
+            <div class="scrollable-groups group-container">
 
-                <div v-for="groupItem in myRoomGroups" class="group-container">
-                    <div class="group my-group background-box">
+                <div v-for="groupItem in myRoomGroups" class="group my-group background-box">
                         <h5> Group Id: {{groupItem.id}}</h5>
-                    </div>
+
+                        <p>aefaefa efaqefqefqfqefqe fqefqeffeafaef aefqgrgrfwargargafdfd</p>
+                        <p>faefaef</p>
                 </div>
-                <div v-for="groupItem in roomGroups">
-                    <div class="group background-box">
+                <div v-for="groupItem in roomGroups" class="group background-box">
                         <h5> Group Id: {{groupItem.id}}</h5>
-                    </div>
                 </div>
 
             </div>
@@ -138,7 +137,7 @@
 
     .group-container {
         display: flex;
-        align-content: flex-start;
+        justify-content: flex-start;
         align-items: stretch;
         flex-wrap: wrap;
     }
@@ -149,8 +148,10 @@
 
     .group {
         min-width: 200px;
+        max-width: 30%;
         border: solid 2px;
         border-color: var(--secondary-light-blue);
+        flex-grow: 1;
     }
 
     .scrollable-members {
