@@ -13,9 +13,17 @@
             <ol v-for="group in userGroups" v-on:click="openRoom(group.group.roomId)" :key="group.group.id" class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action ">
                     <div class="group-container">
-                        <div>
-                            <h5>Room:</h5>
-                            {{group.group.roomId}}
+                        <div class="group-left">
+                            <div style="font-weight:bold;" v-b-tooltip.hover title="Group Id">{{group.group.id}}</div>
+                            <div class="small text-muted" v-b-tooltip.hover title="Room ID">({{group.group.roomId}})</div>
+                        </div>
+                        <div class="group-right">
+                            <div class="data-count">
+                                <div class="count" v-b-tooltip.hover title="Number of members">
+                                    {{group.group.numberOfMembers}}
+                                    <v-icon name="user"></v-icon>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </li>
@@ -89,6 +97,23 @@
 
     .group-container {
         display: flex;
+        justify-content: space-between;
+    }
 
+    .group-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .group-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .count {
+        margin-left: 15px;
     }
 </style>
