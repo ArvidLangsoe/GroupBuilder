@@ -2,8 +2,14 @@
 
     <div class="room-grid">
         <div class="room-details background-box">
-            Details of room. this is some details that are important.
-
+            <p>
+                Room id:
+                {{currentRoom.id}}
+            </p>
+            <p>
+                Code:
+                {{currentRoom.roomCode}}
+            </p>
         </div>
 
         <div class="room-members background-box">
@@ -51,12 +57,8 @@
 
     export default {
         watch: {
-            //Needs to be update to switch to the correct room.
             '$route'(to, from) {
-                console.log("route changed from: ");
-                console.log(from);
-                console.log("route changed to: ");
-                console.log(to);
+                this.$store.dispatch('refreshCurrentRoom', this.$route.params.id);
             }
         },
         created() {
