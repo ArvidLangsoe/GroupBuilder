@@ -33,7 +33,10 @@ namespace GroupBuilder
             CreateMap<RoomParticipant, RoomModel>();
 
             CreateMap<CreateGroupModel, Group>();
-            CreateMap<Group, GroupSimpleModel>();
+            CreateMap<Group, GroupSimpleModel>().AfterMap((g, gsm) =>
+            {
+                gsm.NumberOfMembers = g.Members.Count;
+            });
             CreateMap<Group, GroupDetailModel>();
             CreateMap<GroupMember, MemberModel>();
             CreateMap<GroupMember, GroupModel>();
