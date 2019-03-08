@@ -100,14 +100,32 @@ namespace GroupBuilder.Controllers.Room
         {
             if (ModelState.IsValid)
             {
-                addParticipantCommand.Execute(participant, id);
-                return Ok();
+                return Ok(addParticipantCommand.Execute(participant, id));
             }
             else
             {
                 return BadRequest("Error");
             }
         }
+
+        [Authorize]
+        [HttpPost("Participants")]
+        public IActionResult AddParticipant(string roomCode, [FromBody] Participant participant, [FromServices] IAddParticipantCommand addParticipantCommand)
+        {
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrWhiteSpace(roomCode)) {
+                    throw new ArgumentNullException("The roomcode that was provided is empty.");
+                }
+
+                return Ok(addParticipantCommand.Execute(participant, roomCode));
+            }
+            else
+            {
+                return BadRequest("Error");
+            }
+        }
+
 
         [Authorize]
         [HttpDelete("{id}/Participants")]

@@ -7,6 +7,7 @@ namespace GroupBuilderApplication.Commands.AddParticipant
 {
     public interface IAddParticipantCommand
     {
-        void Execute(Participant participant, int roomId); 
+        RoomSimpleModel Execute(Participant participant, int roomId);
+        RoomSimpleModel Execute(Participant participant, string roomCode);
     }
 }

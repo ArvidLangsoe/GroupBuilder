@@ -3,12 +3,12 @@
         <h1><b>Join Room</b></h1>
         <form>
             <div class="form-group">
-                <input id="room-code" class="form-control" type="text" placeholder="Enter Roomcode" aria-describedby="roomCodeHelp">
+                <input id="room-code" v-model="roomCode" class="form-control" type="text" placeholder="Enter Roomcode" aria-describedby="roomCodeHelp">
                 <small id="roomCodeHelp" class="form-text ">All members of a room can see the room code.</small>
             </div>
 
             <div>
-                <button type="submit" class="btn btn-primary join-btn">Join</button>
+                <button v-on:click="joinRoom" type="submit" class="btn btn-primary join-btn">Join</button>
             </div>
         </form>
 
@@ -16,6 +16,24 @@
 
 
 </template>
+
+
+<script>
+    export default {
+        data: function () {
+            return {
+                roomCode: ""
+            }
+        },
+        methods: {
+
+            joinRoom: function () {
+                this.$store.dispatch('addCurrentUserToRoom', this.roomCode);
+            }
+        }
+    }
+
+</script>
 
 
 <style scoped>
