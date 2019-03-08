@@ -9,7 +9,7 @@ export default {
         currentRoom: state => state.currentRoom
     },
     mutations: {
-        set(state, room) {
+        setRoom(state, room) {
             state.currentRoom = room;
         }
     },
@@ -17,8 +17,7 @@ export default {
         refreshCurrentRoom({ commit }, roomId) {
             axios({ url: ('/api/room/' + roomId), method: 'GET' })
                 .then(response => {
-                    console.log(response);
-                    commit('set', response.data);
+                    commit('setRoom', response.data);
                 }).catch(err => {
                     console.log(err);
                 })

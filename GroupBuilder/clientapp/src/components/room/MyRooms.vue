@@ -10,7 +10,7 @@
             </div>
         </div>
         <div v-else>
-            <ol v-for="room in userRooms" :key="room.room.id" class="list-group list-group-flush">
+            <ol v-for="room in userRooms" v-on:click="openRoom(room)" :key="room.room.id" class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action ">
                     <div class="room-container">
                         <div>
@@ -54,6 +54,11 @@
                 let rooms = this.$store.getters.currentUser.rooms;
                 return rooms;
 
+            }
+        },
+        methods: {
+            openRoom: function (room) {
+                this.$router.push('/room/'+room.room.id)
             }
         }
     }

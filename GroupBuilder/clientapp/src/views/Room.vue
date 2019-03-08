@@ -20,7 +20,7 @@
             <h4>Groups: </h4>
             <div class="group-container scrollable-groups">
 
-                <div v-for="groupItem in roomGroups" class="group-container">
+                <div v-for="groupItem in myRoomGroups" class="group-container">
                     <div class="group my-group background-box">
                         <h5> Group Id: {{groupItem.id}}</h5>
                         
@@ -59,16 +59,24 @@
                 console.log(to);
             }
         },
-        created(){
-            console.log("Room created.");
+        created() {
+            this.$store.dispatch('refreshCurrentUser', this.$route.params.id);
             this.$store.dispatch('refreshCurrentRoom', this.$route.params.id);
         },
         computed: {
             currentRoom: function () {
                 return this.$store.getters.currentRoom;
             },
+            myRoomGroups: function () {
+                var allGroups = this.$store.getters.currentRoom.groups;
+                var currentUserGroups = this.$store.getters.currentUser.groups;
+                var currentUserGroupIds = currentUserGroups.map(y => y.group.id);
+                return allGroups.filter(x => currentUserGroupIds.includes(x.id));
+            },
             roomGroups: function() {
-                return this.$store.getters.currentRoom.groups;
+                var allGroups = this.$store.getters.currentRoom.groups;
+
+                return allGroups.filter(x => !this.myRoomGroups.includes(x));
             },
             roomMembers: function () {
                 return this.$store.getters.currentRoom.participants;

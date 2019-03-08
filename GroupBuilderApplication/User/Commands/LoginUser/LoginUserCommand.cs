@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AutoMapper;
 using GroupBuilderApplication.Interfaces.Persistence;
+using GroupBuilderApplication.Queries.GetSingleUser;
 using GroupBuilderApplication.Queries.GetUserList;
 
 using static BCrypt.Net.BCrypt;
@@ -21,7 +22,7 @@ namespace GroupBuilderApplication.Commands.LoginUser
             _mapper = mapper;
         }
 
-        public UserSimpleModel Execute(LoginUserModel loginModel)
+        public UserDetailItem Execute(LoginUserModel loginModel)
         {
             var matchingUser =_repository.GetAll().SingleOrDefault(x => x.Email.Equals(loginModel.Email));
 
@@ -35,7 +36,7 @@ namespace GroupBuilderApplication.Commands.LoginUser
                 throw new ArgumentException("Wrong Password");
             }
 
-            return _mapper.Map<UserSimpleModel>(matchingUser);
+            return _mapper.Map<UserDetailItem>(matchingUser);
         }
     }
 }

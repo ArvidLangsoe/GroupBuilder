@@ -24,19 +24,38 @@ namespace GroupBuilderApplication.Commands.AddParticipant
             _userRepository = userRepository;
         }
 
-        public void Execute(Shared.Participant participant, int roomId)
+        public RoomSimpleModel Execute(Participant participant, int roomId)
         {
-
-            var user = _userRepository.Get(participant.Id);
             var room = _roomRepository.Get(roomId);
+            if (room == null) {
+                throw new ArgumentException("No room exists with that Id.");
+            }
+            return AddParticipant(participant, room);
+        }
 
-            if (room.Participants.Any(p => p.UserId == user.Id)) {
+        public RoomSimpleModel Execute(Participant participant, string roomCode) {
+            var room = _roomRepository.GetAll().SingleOrDefault(x => x.RoomCode.Equals(roomCode));
+            if (room == null)
+            {
+                throw new ArgumentException("No room exists with that roomcode.");
+            }
+
+            return AddParticipant(participant, room);
+        }
+
+        private RoomSimpleModel AddParticipant(Participant participant, Room room) {
+            var user = _userRepository.Get(participant.Id);
+            
+            if (room.Participants.Any(p => p.UserId == user.Id))
+            {
                 throw new ArgumentException("This user is already participating in this room.");
             }
 
-            room.Participants.Add(new GroupBuilderDomain.RoomParticipant { Room = room, User = user });
+            room.Participants.Add(new RoomParticipant { Room = room, User = user });
             _unitOfWork.Save();
 
+
+            return _mapper.Map<RoomSimpleModel>(room);
         }
     }
 }

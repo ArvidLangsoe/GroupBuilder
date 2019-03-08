@@ -11,7 +11,7 @@ export default {
         currentUser: state => state.currentUser
     },
     mutations: {
-        set(state, user) {
+        setUser(state, user) {
             state.currentUser = user;
         }
     },
@@ -19,10 +19,18 @@ export default {
         refreshCurrentUser({ commit }) {
                 axios({ url: ('/api/user/' + this.getters.jwtUserId), method: 'GET' })
                     .then(response => {
-                        commit('set', response.data);
+                        commit('setUser', response.data);
                     }).catch(err => {
                         console.log(err);
                     })
         },
+        addCurrentUserToRoom({ commit }, roomCode) {
+            axios({ url: ('/api/room/participants?roomCode='+ roomCode), method: 'Post', data: { "id": this.getters.jwtUserId} })
+                .then(response => {
+                    Router.push('/room/' + response.data.id)
+                }).catch(err => {
+                    console.log(err);
+                })
+        }
     }
 }
