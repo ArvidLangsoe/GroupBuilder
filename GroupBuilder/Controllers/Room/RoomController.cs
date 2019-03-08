@@ -29,10 +29,10 @@ namespace GroupBuilder.Controllers.Room
         [HttpGet]
         public IActionResult Get([FromServices] IGetRoomListQuery getRoomListQuery)
         {
+            
             if (ModelState.IsValid)
             {
                 var rooms = getRoomListQuery.Execute();
-
                 return Ok(rooms);
             }
             else
@@ -62,7 +62,6 @@ namespace GroupBuilder.Controllers.Room
         }
 
         // POST: api/Room
-
         [Authorize]
         [HttpPost]
         public IActionResult Post([FromBody] CreateRoomModel newRoom, [FromServices] ICreateRoomCommand createRoomCommand)
