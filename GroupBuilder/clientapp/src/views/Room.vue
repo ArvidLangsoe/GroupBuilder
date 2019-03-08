@@ -29,13 +29,11 @@
                 <div v-for="groupItem in myRoomGroups" class="group-container">
                     <div class="group my-group background-box">
                         <h5> Group Id: {{groupItem.id}}</h5>
-                        
                     </div>
                 </div>
                 <div v-for="groupItem in roomGroups">
                     <div class="group background-box">
                         <h5> Group Id: {{groupItem.id}}</h5>
-                        
                     </div>
                 </div>
 
@@ -140,7 +138,8 @@
 
     .group-container {
         display: flex;
-        align-content: stretch;
+        align-content: flex-start;
+        align-items: stretch;
         flex-wrap: wrap;
     }
 
