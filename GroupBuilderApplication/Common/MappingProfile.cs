@@ -22,7 +22,11 @@ namespace GroupBuilder
             CreateMap<User, UserDetailItem>();
 
             CreateMap<CreateRoomModel, Room>();
-            CreateMap<Room, RoomSimpleModel>();
+            CreateMap<Room, RoomSimpleModel>().AfterMap((r, rsm) =>
+            {
+                rsm.NumberOfGroups = r.Groups.Count;
+                rsm.NumberOfParticipants = r.Participants.Count;
+            });
             CreateMap<Room, RoomDetailModel>();
             CreateMap<Participant, User>();
             CreateMap<RoomParticipant, ParticipantModel>();

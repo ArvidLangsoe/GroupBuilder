@@ -18,7 +18,8 @@ namespace GroupBuilderPersistence
         {
             return _database.Users
                 .Include(u => u.Groups).ThenInclude(gm => gm.Group)
-                .Include(u => u.Rooms).ThenInclude(rp => rp.Room)
+                .Include(u => u.Rooms).ThenInclude(rp => rp.Room).ThenInclude(g=> g.Participants)
+                .Include(u => u.Rooms).ThenInclude(rp => rp.Room).ThenInclude(g => g.Groups)
                 .SingleOrDefault(p => p.Id == id);
         }
     }

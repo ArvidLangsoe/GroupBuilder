@@ -153,5 +153,10 @@
         color: #000;
     }
 
+    .icon {
+        height: 1.5em;
+    }
+
+
 
 </style>

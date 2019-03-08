@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store/store'
 import Axios from 'axios'
+import feather from 'vue-icon'
 import VeeValidate from 'vee-validate'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -15,6 +16,7 @@ if (token) {
     Vue.prototype.$http.defaults.headers.common['Authorization'] = 'Bearer ' +token
 }
 Vue.use(VeeValidate);
+Vue.use(feather,'v-icon');
 
 new Vue({
     router,
