@@ -2,7 +2,7 @@
     <div class="group background-box" v-bind:class="{mygroup: isMyGroup}">
         <h5> Group Id: {{group.id}}</h5>
         <draggable v-model="members" group="users" @start="drag=true" @end="drag=false" @change="changeMembers" :sort="false" class="scrollable-groups-members">
-            <ul v-for="participant in members" class="list-group list-group-flush">
+            <ul v-for="participant in members" v-bind:key="participant.user.id" class="list-group list-group-flush">
                 <li class="list-group-item">{{participant.user.email}}</li>
             </ul>
         </draggable>
@@ -25,6 +25,7 @@
                     return this.group.members;
                 },
                 set: function (value) {
+                    //might wanna not update this, instead retrieve from server?
                     this.group.members = value;
                 }
             }

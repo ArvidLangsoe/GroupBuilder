@@ -16,7 +16,7 @@
             <h3>Members</h3> 
             <div class="scrollable-members">
                 <draggable v-model="roomMembers" :group="{name:'users', pull: 'clone'}" @start="drag=true" @end="drag=false" :sort="false">
-                    <ul v-for="participant in roomMembers" class="list-group list-group-flush">
+                    <ul v-for="participant in roomMembers" v-bind:key="participant.user.id" class="list-group list-group-flush">
                         <li class="list-group-item">{{participant.user.email}}</li>
                     </ul>
                 </draggable>
@@ -28,10 +28,10 @@
             <h4>Groups: </h4>
             <div class="scrollable-groups group-container">
 
-                <div v-for="groupItem in myRoomGroups" class="group-item">
+                <div v-for="groupItem in myRoomGroups" v-bind:key="groupItem.id" class="group-item">
                         <roomgroup v-bind:group="groupItem" v-bind:isMyGroup="true" />
                 </div>
-                <div v-for="groupItem in roomGroups" class="group-item">
+                <div v-for="groupItem in roomGroups" v-bind:key="groupItem.id" class="group-item">
                         <roomgroup v-bind:group="groupItem" v-bind:isMyGroup="false" />
                 </div>
 
@@ -61,7 +61,7 @@
             roomgroup
         },
         watch: {
-            '$route'(to, from) {
+            '$route'() {
                 this.$store.dispatch('refreshCurrentRoom', this.$route.params.id);
             }
         },
@@ -76,20 +76,26 @@
             myRoomGroups: function () {
                 var allGroups = this.$store.getters.currentRoom.groups;
                 var currentUserGroups = this.$store.getters.currentUser.groups;
+                if (!currentUserGroups || !allGroups) {
+                    return [];
+                }
                 var currentUserGroupIds = currentUserGroups.map(y => y.group.id);
                 return allGroups.filter(x => currentUserGroupIds.includes(x.id));
+              
             },
             roomGroups: function () {
                 
                 var allGroups = this.$store.getters.currentRoom.groups;
-
+                if (!allGroups) {
+                    return [];
+                }
                 return allGroups.filter(x => !this.myRoomGroups.includes(x));
             },
             roomMembers: {
                 get: function(){
                     return this.$store.getters.currentRoom.participants;
                 },
-                set: function (value) {
+                set: function () {
                     //ignore any values set. 
                     //They are of no interest since the members list should be static.
                 }
