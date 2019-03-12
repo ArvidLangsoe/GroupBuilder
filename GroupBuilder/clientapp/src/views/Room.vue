@@ -27,13 +27,17 @@
             <div class="scrollable-groups group-container">
 
                 <div v-for="groupItem in myRoomGroups" class="group my-group background-box">
-                        <h5> Group Id: {{groupItem.id}}</h5>
+                    <h5> Group Id: {{groupItem.id}}</h5>
+                    <ul v-for="participant in groupMembers(groupItem)" class="list-group list-group-flush">
+                        <li class="list-group-item">{{participant.user.email}}</li>
+                    </ul>
 
-                        <p>aefaefa efaqefqefqfqefqe fqefqeffeafaef aefqgrgrfwargargafdfd</p>
-                        <p>faefaef</p>
                 </div>
-                <div v-for="groupItem in roomGroups" class="group background-box">
-                        <h5> Group Id: {{groupItem.id}}</h5>
+                <div v-for="groupItem in roomGroups" class="group background-box" >
+                    <h5> Group Id: {{groupItem.id}}</h5>
+                    <ul v-for="participant in groupMembers(groupItem)" class="list-group list-group-flush">
+                        <li class="list-group-item">{{participant.user.email}}</li>
+                    </ul>
                 </div>
 
             </div>
@@ -72,13 +76,20 @@
                 var currentUserGroupIds = currentUserGroups.map(y => y.group.id);
                 return allGroups.filter(x => currentUserGroupIds.includes(x.id));
             },
-            roomGroups: function() {
+            roomGroups: function () {
+                
                 var allGroups = this.$store.getters.currentRoom.groups;
 
                 return allGroups.filter(x => !this.myRoomGroups.includes(x));
             },
             roomMembers: function () {
                 return this.$store.getters.currentRoom.participants;
+            }
+        },
+        methods: {
+            groupMembers: function (group) {
+                console.log(group);
+                return [];
             }
         }
     }
