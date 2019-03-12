@@ -10,5 +10,10 @@ namespace GroupBuilderApplication.Shared
         public int Id { get; set; }
 
         public int RoomId { get; set; }
+
+        public int NumberOfMembers { get; set; }
+
+        public List<MemberModel> Members { get; set; }
+
     }
 }

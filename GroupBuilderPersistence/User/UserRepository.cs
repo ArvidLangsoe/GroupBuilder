@@ -17,8 +17,9 @@ namespace GroupBuilderPersistence
         public new User Get(int id)
         {
             return _database.Users
-                .Include(u => u.Groups).ThenInclude(gm => gm.Group)
-                .Include(u => u.Rooms).ThenInclude(rp => rp.Room)
+                .Include(u => u.Groups).ThenInclude(gm => gm.Group).ThenInclude(g=> g.Members)
+                .Include(u => u.Rooms).ThenInclude(rp => rp.Room).ThenInclude(r=> r.Participants)
+                .Include(u => u.Rooms).ThenInclude(rp => rp.Room).ThenInclude(r => r.Groups)
                 .SingleOrDefault(p => p.Id == id);
         }
     }

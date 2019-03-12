@@ -15,9 +15,11 @@
         <div class="room-members background-box">
             <h3>Members</h3> 
             <div class="scrollable-members">
-                <ul v-for="participant in roomMembers" class="list-group list-group-flush">
-                    <li class="list-group-item">{{participant.user.email}}</li>
-                </ul>
+                <draggable v-model="roomMembers" :group="{name:'users', pull: 'clone'}" @start="drag=true" @end="drag=false" :sort="false">
+                    <ul v-for="participant in roomMembers" v-bind:key="participant.user.id" class="list-group list-group-flush">
+                        <li class="list-group-item">{{participant.user.email}}</li>
+                    </ul>
+                </draggable>
             </div>
 
         </div>
@@ -26,14 +28,11 @@
             <h4>Groups: </h4>
             <div class="scrollable-groups group-container">
 
-                <div v-for="groupItem in myRoomGroups" class="group my-group background-box">
-                        <h5> Group Id: {{groupItem.id}}</h5>
-
-                        <p>aefaefa efaqefqefqfqefqe fqefqeffeafaef aefqgrgrfwargargafdfd</p>
-                        <p>faefaef</p>
+                <div v-for="groupItem in myRoomGroups" v-bind:key="groupItem.id" class="group-item">
+                        <roomgroup v-bind:group="groupItem" v-bind:isMyGroup="true" />
                 </div>
-                <div v-for="groupItem in roomGroups" class="group background-box">
-                        <h5> Group Id: {{groupItem.id}}</h5>
+                <div v-for="groupItem in roomGroups" v-bind:key="groupItem.id" class="group-item">
+                        <roomgroup v-bind:group="groupItem" v-bind:isMyGroup="false" />
                 </div>
 
             </div>
@@ -52,9 +51,17 @@
 
 <script>
 
+    import draggable from 'vuedraggable'
+    import roomgroup from '../components/group/RoomGroup.vue'
+
+
     export default {
+        components: {
+            draggable,
+            roomgroup
+        },
         watch: {
-            '$route'(to, from) {
+            '$route'() {
                 this.$store.dispatch('refreshCurrentRoom', this.$route.params.id);
             }
         },
@@ -69,16 +76,34 @@
             myRoomGroups: function () {
                 var allGroups = this.$store.getters.currentRoom.groups;
                 var currentUserGroups = this.$store.getters.currentUser.groups;
+                if (!currentUserGroups || !allGroups) {
+                    return [];
+                }
                 var currentUserGroupIds = currentUserGroups.map(y => y.group.id);
                 return allGroups.filter(x => currentUserGroupIds.includes(x.id));
+              
             },
-            roomGroups: function() {
+            roomGroups: function () {
+                
                 var allGroups = this.$store.getters.currentRoom.groups;
-
+                if (!allGroups) {
+                    return [];
+                }
                 return allGroups.filter(x => !this.myRoomGroups.includes(x));
             },
-            roomMembers: function () {
-                return this.$store.getters.currentRoom.participants;
+            roomMembers: {
+                get: function(){
+                    return this.$store.getters.currentRoom.participants;
+                },
+                set: function () {
+                    //ignore any values set. 
+                    //They are of no interest since the members list should be static.
+                }
+            }
+        },
+        methods: {
+            groupMembers: function (group) {
+                return group.members;
             }
         }
     }
@@ -142,16 +167,10 @@
         flex-wrap: wrap;
     }
 
-    .my-group {
-        background-color: var(--secondary-light-blue)
-    }
-
-    .group {
-        min-width: 200px;
-        max-width: 30%;
-        border: solid 2px;
-        border-color: var(--secondary-light-blue);
+    .group-item {
         flex-grow: 1;
+        max-width: 30%;
+        min-width: 200px;
     }
 
     .scrollable-members {

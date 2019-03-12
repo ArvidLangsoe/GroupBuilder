@@ -12,10 +12,25 @@
         <div v-else>
             <ol v-for="room in userRooms" v-on:click="openRoom(room)" :key="room.room.id" class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action ">
-                    <div class="room-container">
-                        <div>
-                            <h5>Room Id:</h5>
-                            {{room.room.id}}
+                    <div class="room-container" >
+                        <div class="room-left">
+                            <div style="font-weight:bold;"  title="Room name">{{room.room.name}}</div>
+                            <div class="small text-muted" title="Room ID">({{room.room.id}})</div>
+                        </div>
+                        <div class="room-right">
+                            <div>
+                                Code: <span class="code">{{room.room.roomCode}}</span>
+                            </div>
+                            <div class="data-count">
+                                <div class="count"  title="Number of participants">
+                                    {{room.room.numberOfParticipants}}
+                                    <v-icon name="user"></v-icon>
+                                </div>
+                                <div class="count"  title="Number of groups">
+                                    {{room.room.numberOfGroups}}
+                                    <v-icon name="users"></v-icon>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </li>
@@ -84,8 +99,35 @@
     }
 
     .room-container {
+       display: flex;
+       justify-content: space-between;
+    }
+
+    .data-count {
         display: flex;
-       
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    .room-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .room-right {
+        display:flex;
+        flex-direction:column;
+        align-items: flex-end;
+
+    }
+
+    .code {
+        font-weight:bold;
+    }
+
+    .count {
+        margin-left: 15px;
     }
 
 
