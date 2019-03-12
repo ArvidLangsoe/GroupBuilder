@@ -14,12 +14,12 @@
                 <li class="list-group-item list-group-item-action ">
                     <div class="group-container">
                         <div class="group-left">
-                            <div style="font-weight:bold;" v-b-tooltip.hover title="Group Id">{{group.group.id}}</div>
-                            <div class="small text-muted" v-b-tooltip.hover title="Room ID">({{group.group.roomId}})</div>
+                            <div style="font-weight:bold;" title="Group Id">{{group.group.id}}</div>
+                            <div class="small text-muted" title="Room ID">({{group.group.roomId}})</div>
                         </div>
                         <div class="group-right">
                             <div class="data-count">
-                                <div class="count" v-b-tooltip.hover title="Number of members">
+                                <div class="count"  title="Number of members">
                                     {{group.group.numberOfMembers}}
                                     <v-icon name="user"></v-icon>
                                 </div>

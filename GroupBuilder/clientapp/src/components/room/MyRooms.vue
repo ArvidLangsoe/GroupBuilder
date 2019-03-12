@@ -14,19 +14,19 @@
                 <li class="list-group-item list-group-item-action ">
                     <div class="room-container" >
                         <div class="room-left">
-                            <div style="font-weight:bold;" v-b-tooltip.hover title="Room name">{{room.room.name}}</div>
-                            <div class="small text-muted" v-b-tooltip.hover title="Room ID">({{room.room.id}})</div>
+                            <div style="font-weight:bold;"  title="Room name">{{room.room.name}}</div>
+                            <div class="small text-muted" title="Room ID">({{room.room.id}})</div>
                         </div>
                         <div class="room-right">
                             <div>
                                 Code: <span class="code">{{room.room.roomCode}}</span>
                             </div>
                             <div class="data-count">
-                                <div class="count" v-b-tooltip.hover title="Number of participants">
+                                <div class="count"  title="Number of participants">
                                     {{room.room.numberOfParticipants}}
                                     <v-icon name="user"></v-icon>
                                 </div>
-                                <div class="count" v-b-tooltip.hover title="Number of groups">
+                                <div class="count"  title="Number of groups">
                                     {{room.room.numberOfGroups}}
                                     <v-icon name="users"></v-icon>
                                 </div>
